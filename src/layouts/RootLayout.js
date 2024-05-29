@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import SideMenu from "../components/SideMenu";
 
@@ -7,13 +7,17 @@ function RootLayout() {
     <Box
       sx={{
         height: "100%",
+        width: "100%",
         display: "flex",
+        alignItems: "stretch",
       }}
     >
       <SideMenu />
-      <Container>
+      <Box
+        sx={{ height: "100vh", width: "100%", px: { xs: 3 }, py: { xs: 5 } }}
+      >
         <Outlet />
-      </Container>
+      </Box>
     </Box>
   );
 }

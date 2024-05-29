@@ -23,8 +23,11 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        "*, *::before, *::after": {
+        html: {
           boxSizing: "border-box",
+        },
+        "*, *::before, *::after": {
+          boxSizing: "inherit",
         },
         "*": {
           margin: 0,
@@ -50,6 +53,7 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         lineHeight: "100%",
+        fontFamily: "Open Sans, sans-serif",
       },
     },
     MuiButtonBase: {
