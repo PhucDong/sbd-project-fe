@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomTimePicker from "./CustomTimePicker";
 import CustomStyledButton from "./CustomStyledButton";
 import dayjs from "dayjs";
@@ -57,11 +57,36 @@ function AddDayTimeFrameForm({ handleCloseAddForm }) {
     setOpenSerialNoDropdownMenu(true);
 
   const handleAddNewTimeFrame = () => {
-    setDayTimeFrames([
-      ...dayTimeFrames,
+    setDayTimeFrames((prevItems) => [
+      ...prevItems,
       { startingTime: dayjs(null), endingTime: dayjs(null) },
     ]);
   };
+
+  const handleChangeDayTimeFrame = (data, index) => {
+    if (data.startingTime.isValid() && data.endingTime.isValid()) {
+      setDayTimeFrames((prevItems) => {
+        const updatedDayTimeFrames = prevItems.map((dayTimeFrame, i) =>
+          i === index ? { ...data } : dayTimeFrame
+        );
+        return updatedDayTimeFrames;
+      });
+    }
+  };
+
+  const handleSubmitFormData = () => {
+    console.log(78, serialNumber);
+    console.log(79, dayTimeFrameName);
+    dayTimeFrames.forEach((dayTimeFrame) => {
+      console.log(81, dayTimeFrame.startingTime.format("HH:mm"));
+      console.log(82, dayTimeFrame.endingTime.format("HH:mm"));
+    });
+    handleCloseAddForm();
+  };
+
+  useEffect(() => {
+    console.log(87, dayTimeFrames);
+  }, [dayTimeFrames]);
 
   return (
     <>
@@ -126,14 +151,16 @@ function AddDayTimeFrameForm({ handleCloseAddForm }) {
         </Box>
 
         <Box className="form-section form-section-direction">
-          {dayTimeFrames.map((dayTimeFrame, index) => (
-            <CustomTimePicker
-              key={index}
-              timeFrameNumber={index + 1}
-              startTime={dayTimeFrame.startingTime}
-              endTime={dayTimeFrame.endingTime}
-            />
-          ))}
+          {dayTimeFrames.length > 0 &&
+            dayTimeFrames.map((dayTimeFrame, index) => (
+              <CustomTimePicker
+                key={index}
+                timeFrameNumber={index}
+                startTime={dayTimeFrame.startingTime}
+                endTime={dayTimeFrame.endingTime}
+                onChange={(data) => handleChangeDayTimeFrame(data, index)}
+              />
+            ))}
         </Box>
 
         <Button
@@ -165,7 +192,7 @@ function AddDayTimeFrameForm({ handleCloseAddForm }) {
           <CustomStyledButton onClick={handleCloseAddForm}>
             Cancel
           </CustomStyledButton>
-          <CustomStyledButton onClick={() => console.log("Saved!")}>
+          <CustomStyledButton onClick={handleSubmitFormData}>
             Save
           </CustomStyledButton>
         </Box>

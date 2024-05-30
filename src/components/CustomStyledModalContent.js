@@ -16,10 +16,11 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
     "& .MuiTypography-root": {
       color: "#fff",
       fontSize: "1.3rem",
+      fontWeight: 550,
     },
   },
   "& .form-body": {
-    padding: "30px 36px 14px 36px",
+    padding: "24px 32px 14px 32px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

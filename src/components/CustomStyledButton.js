@@ -6,9 +6,9 @@ function CustomStyledButton(props) {
       onClick={props.onClick}
       sx={{
         border: props.children === "Cancel" ? "1px solid #A9A9A9" : "none",
-        py: "12px",
-        px: "24px",
-        width: "120px",
+        py: "8px",
+        px: "20px",
+        width: "116px",
         backgroundColor:
           props.children === "Cancel" ? "#F0F0F0" : "secondary.main",
         color: props.children === "Cancel" ? "info.main" : "#fff",

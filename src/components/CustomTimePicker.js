@@ -1,27 +1,32 @@
 import { Box } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 function CustomTimePicker(props) {
-  const { timeFrameNumber, startTime, endTime } =
-    props;
-  const [startingTime, setStartingTime] = useState(startTime);
-  const [endingTime, setEndingTime] = useState(endTime);
+  const { timeFrameNumber, startTime, endTime, onChange } = props;
+  const [startingTime, setStartingTime] = useState(dayjs(null));
+  const [endingTime, setEndingTime] = useState(dayjs(null));
 
   const handleChangeStartingTime = (newStartingTime) => {
     setStartingTime(newStartingTime);
-    // setStartTime(newStartingTime);
   };
 
   const handleChangeEndingTime = (newEndingTime) => {
     setEndingTime(newEndingTime);
-    // setEndTime(newEndingTime);
   };
+
+  useEffect(() => {
+    if (startTime === startingTime && endTime === endingTime) {
+      return;
+    }
+    onChange({ startingTime, endingTime });
+  }, [onChange, startingTime, endingTime, startTime, endTime]);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
       <Box className="section-label" component="label">
-        {`Time Frame ${timeFrameNumber}`}
+        {`Time Frame ${timeFrameNumber + 1}`}
       </Box>
       <Box
         className="section-input"
