@@ -4,9 +4,18 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 function CustomTimePicker(props) {
-  const { timeFrameNumber, startTime, endTime, onChange } = props;
-  const [startingTime, setStartingTime] = useState(dayjs(null));
-  const [endingTime, setEndingTime] = useState(dayjs(null));
+  const {
+    timeFrameNumber,
+    startTime,
+    endTime,
+    onChange,
+    // errorStartTime,
+    // errorEndTime,
+  } = props;
+  const [startingTime, setStartingTime] = useState(null);
+  const [endingTime, setEndingTime] = useState(null);
+  console.log("Start time:", startTime);
+  console.log("End time:", endTime);
 
   const handleChangeStartingTime = (newStartingTime) => {
     setStartingTime(newStartingTime);
@@ -24,7 +33,7 @@ function CustomTimePicker(props) {
   }, [onChange, startingTime, endingTime, startTime, endTime]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+    <Box sx={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
       <Box className="section-label" component="label">
         {`Time Frame ${timeFrameNumber + 1}`}
       </Box>
@@ -32,12 +41,8 @@ function CustomTimePicker(props) {
         className="section-input"
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           gap: "6px",
-          // "& .MuiFormLabel-root.MuiInputLabel-root": {
-          //   width: "100%",
-          //   textAlign: "left",
-          // },
         }}
       >
         <TimePicker
@@ -48,6 +53,10 @@ function CustomTimePicker(props) {
             actionBar: {
               actions: ["clear", "cancel", "accept"],
             },
+            // textField: {
+            //   error: errorStartTime ? true : false,
+            //   helperText: errorStartTime,
+            // },
           }}
           sx={{
             "& .MuiInputAdornment-root": {
@@ -64,6 +73,10 @@ function CustomTimePicker(props) {
             actionBar: {
               actions: ["clear", "cancel", "accept"],
             },
+            // textField: {
+            //   error: errorEndTime ? true : false,
+            //   helperText: errorEndTime,
+            // },
           }}
           sx={{
             "& .MuiInputAdornment-root": {

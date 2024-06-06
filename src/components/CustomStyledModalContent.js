@@ -5,7 +5,7 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  maxWidth: "460px",
+  maxWidth: "520px",
   backgroundColor: "#fff",
   borderRadius: "12px",
   "& .form-header": {
@@ -24,7 +24,7 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "12px",
+    gap: "8px",
     "& .section-label": {
       width: "40%",
       textAlign: "right",
@@ -42,11 +42,15 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
           color: theme.palette.info.main,
         },
       },
+      "& .MuiFormHelperText-root": {
+        margin: "0 8px",
+        marginTop: "4px",
+      },
     },
     "& .form-section": {
       width: "100%",
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-start",
       gap: "8px",
     },
     "& .form-section-direction": {

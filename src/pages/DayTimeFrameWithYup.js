@@ -46,14 +46,13 @@ function DayTimeFrame() {
         >
           <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
         </IconButton>
-
-        <AddFormLayout
-          openAddForm={openAddForm}
-          handleCloseAddForm={handleCloseAddForm}
-        >
-          <AddDayTimeFrameForm handleCloseAddForm={handleCloseAddForm} />
-        </AddFormLayout>
       </MainButtonGroupLayout>
+      <AddFormLayout
+        openAddForm={openAddForm}
+        handleCloseAddForm={handleCloseAddForm}
+      >
+        <AddDayTimeFrameForm handleCloseAddForm={handleCloseAddForm} />
+      </AddFormLayout>
     </Box>
   );
 }

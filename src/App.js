@@ -7,7 +7,7 @@ import {
 import RootLayout from "./layouts/RootLayout";
 import Index from "./layouts/Index";
 import ErrorPage from "./pages/ErrorPage";
-import DayTimeFrame from "./pages/DayTimeFrame";
+import DayTimeFrameWithYup from "./pages/DayTimeFrameWithYup";
 import WeekTimeFrame from "./pages/WeekTimeFrame";
 import AccessPermission from "./pages/AccessPermission";
 import RealtimeMonitoring from "./pages/RealtimeMonitoring";
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
         <Route index element={<Index />} />
         <Route
           path="access-management/day-time-frame"
-          element={<DayTimeFrame />}
+          element={<DayTimeFrameWithYup />}
           errorElement={<ErrorPage />}
         />
         <Route
