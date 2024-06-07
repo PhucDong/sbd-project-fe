@@ -1,21 +1,23 @@
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function CustomTimePicker(props) {
   const {
-    timeFrameNumber,
+    dayTimeFrameNumber,
     startTime,
     endTime,
     onChange,
-    // errorStartTime,
-    // errorEndTime,
+    errorStartingTime,
+    errorEndingTime,
+    handleDeleteDayTimeFrame,
+    isDayTimeFrameDeleted,
+    setIsDayTimeFrameDeleted,
   } = props;
-  const [startingTime, setStartingTime] = useState(null);
-  const [endingTime, setEndingTime] = useState(null);
-  console.log("Start time:", startTime);
-  console.log("End time:", endTime);
+  const [startingTime, setStartingTime] = useState(dayjs(null));
+  const [endingTime, setEndingTime] = useState(dayjs(null));
 
   const handleChangeStartingTime = (newStartingTime) => {
     setStartingTime(newStartingTime);
@@ -29,19 +31,32 @@ function CustomTimePicker(props) {
     if (startTime === startingTime && endTime === endingTime) {
       return;
     }
+    if (isDayTimeFrameDeleted) {
+      setStartingTime(startTime);
+      setEndingTime(endTime);
+      setIsDayTimeFrameDeleted(false);
+      return;
+    }
     onChange({ startingTime, endingTime });
-  }, [onChange, startingTime, endingTime, startTime, endTime]);
+  }, [
+    onChange,
+    startingTime,
+    endingTime,
+    startTime,
+    endTime,
+    isDayTimeFrameDeleted,
+    setIsDayTimeFrameDeleted,
+  ]);
 
   return (
     <Box sx={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
       <Box className="section-label" component="label">
-        {`Time Frame ${timeFrameNumber + 1}`}
+        {`Time Frame ${dayTimeFrameNumber + 1}`}
       </Box>
       <Box
         className="section-input"
         sx={{
           display: "flex",
-          alignItems: "flex-start",
           gap: "6px",
         }}
       >
@@ -53,10 +68,10 @@ function CustomTimePicker(props) {
             actionBar: {
               actions: ["clear", "cancel", "accept"],
             },
-            // textField: {
-            //   error: errorStartTime ? true : false,
-            //   helperText: errorStartTime,
-            // },
+            textField: {
+              error: errorStartingTime ? true : false,
+              helperText: errorStartingTime ? "Starting time is required." : "",
+            },
           }}
           sx={{
             "& .MuiInputAdornment-root": {
@@ -73,10 +88,10 @@ function CustomTimePicker(props) {
             actionBar: {
               actions: ["clear", "cancel", "accept"],
             },
-            // textField: {
-            //   error: errorEndTime ? true : false,
-            //   helperText: errorEndTime,
-            // },
+            textField: {
+              error: errorEndingTime ? true : false,
+              helperText: errorEndingTime ? "Ending time is required." : "",
+            },
           }}
           sx={{
             "& .MuiInputAdornment-root": {
@@ -85,6 +100,17 @@ function CustomTimePicker(props) {
             },
           }}
         />
+        <IconButton
+          sx={{ p: 0, height: "100%" }}
+          onClick={() => handleDeleteDayTimeFrame(dayTimeFrameNumber)}
+        >
+          <DeleteIcon
+            sx={{
+              fontSize: "1.6rem",
+              color: errorStartingTime || errorEndingTime ? "error.main" : "",
+            }}
+          />
+        </IconButton>
       </Box>
     </Box>
   );
