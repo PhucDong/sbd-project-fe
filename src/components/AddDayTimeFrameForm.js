@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import CustomStyledButton from "./CustomStyledButton";
+import CustomStyledFormButton from "./CustomStyledFormButton";
 import dayjs from "dayjs";
 import "../App.css";
 import * as Yup from "yup";
@@ -181,12 +181,12 @@ function AddDayTimeFrameForm({ handleCloseAddForm }) {
             gap: "4px",
           }}
         >
-          <CustomStyledButton onClick={handleCloseAddForm}>
+          <CustomStyledFormButton onClick={handleCloseAddForm}>
             Cancel
-          </CustomStyledButton>
-          <CustomStyledButton onClick={handleSubmitFormData}>
+          </CustomStyledFormButton>
+          <CustomStyledFormButton onClick={handleSubmitFormData}>
             Save
-          </CustomStyledButton>
+          </CustomStyledFormButton>
         </Box>
       </Box>
     </>
