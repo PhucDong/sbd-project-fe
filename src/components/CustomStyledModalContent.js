@@ -5,7 +5,7 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  maxWidth: "520px",
+  width: "552px",
   backgroundColor: "#fff",
   borderRadius: "12px",
   "& .form-header": {
@@ -20,13 +20,13 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
     },
   },
   "& .form-body": {
-    padding: "24px 32px 14px 32px",
+    padding: "24px 28px 14px 28px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     gap: "8px",
     "& .section-label": {
-      width: "40%",
+      width: "28%",
       textAlign: "right",
       color: theme.palette.primary.main,
       fontSize: "1rem",
