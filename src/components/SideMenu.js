@@ -18,9 +18,10 @@ import {
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { drawerWidth } from "../layouts/RootLayout";
 
 const openedMixin = (theme) => ({
-  width: "300px",
+  width: `${drawerWidth}px`,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -49,6 +50,7 @@ const DrawerHeader = styled(Box, {
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "openSideMenu",
 })(({ theme, openSideMenu }) => ({
+  width: `${drawerWidth}px`,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
@@ -63,8 +65,8 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-function SideMenu() {
-  const [openSideMenu, setOpenSideMenu] = useState(true);
+function SideMenu(props) {
+  const { openSideMenu, setOpenSideMenu } = props;
   const [expanded, setExpanded] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const navigate = useNavigate();
@@ -86,7 +88,6 @@ function SideMenu() {
   const handleSelectedSubItem = (subItem, mainMenuItemPath) => {
     setSelectedItemIndex(subItem.label);
     navigate(
-      // `${mainMenuItemPath}/${subItem.label}`
       `${mainMenuItemPath}/${subItem.label.toLowerCase().replace(/\s/g, "-")}`
     );
   };
