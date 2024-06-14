@@ -12,7 +12,7 @@ function CustomTimePicker(props) {
     onChange,
     errorStartingTime,
     errorEndingTime,
-    handleDeleteDayTimeFrame,
+    handleDeleteTimeFrame,
     isDayTimeFrameDeleted,
     setIsDayTimeFrameDeleted,
   } = props;
@@ -62,7 +62,7 @@ function CustomTimePicker(props) {
       >
         <TimePicker
           views={["hours", "minutes"]}
-          value={startingTime}
+          value={dayjs(startTime).isValid() ? dayjs(startTime) : startingTime}
           onChange={handleChangeStartingTime}
           slotProps={{
             actionBar: {
@@ -82,7 +82,7 @@ function CustomTimePicker(props) {
         />
         <TimePicker
           views={["hours", "minutes"]}
-          value={endingTime}
+          value={dayjs(endTime).isValid() ? dayjs(endTime) : endingTime}
           onChange={handleChangeEndingTime}
           slotProps={{
             actionBar: {
@@ -102,7 +102,7 @@ function CustomTimePicker(props) {
         />
         <IconButton
           sx={{ p: 0, height: "100%" }}
-          onClick={() => handleDeleteDayTimeFrame(dayTimeFrameNumber)}
+          onClick={() => handleDeleteTimeFrame(dayTimeFrameNumber)}
         >
           <DeleteIcon
             sx={{
