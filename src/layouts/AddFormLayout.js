@@ -2,10 +2,10 @@ import { Modal } from "@mui/material";
 import { CustomStyledModalContent } from "../components/CustomStyledModalContent";
 
 function AddFormLayout(props) {
-  const { openAddForm, handleCloseAddForm, children } = props;
+  const { openForm, handleCloseForm, children } = props;
 
   return (
-    <Modal open={openAddForm} onClose={handleCloseAddForm}>
+    <Modal open={openForm} onClose={handleCloseForm}>
       <CustomStyledModalContent>{children}</CustomStyledModalContent>
     </Modal>
   );
