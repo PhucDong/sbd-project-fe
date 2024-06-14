@@ -7,11 +7,17 @@ import AddFormLayout from "../layouts/AddFormLayout";
 import AddDayTimeFrameForm from "../components/AddDayTimeFrameForm";
 import CachedIcon from "@mui/icons-material/Cached";
 import { CustomStyledAddButton } from "../components/CustomStyledAddButton";
+import MainTableLayout from "../components/MainTableLayout";
 
 function DayTimeFrame() {
   const [openAddForm, setOpenAddForm] = useState(false);
+  const [dayTimeFrameData, setDayTimeFrameData] = useState([]);
   const handleOpenAddForm = () => setOpenAddForm(true);
   const handleCloseAddForm = () => setOpenAddForm(false);
+
+  const handleDayTimeFrameData = (formData) => {
+    setDayTimeFrameData([...dayTimeFrameData, { ...formData }]);
+  };
 
   return (
     <Box>
@@ -26,16 +32,24 @@ function DayTimeFrame() {
 
         <IconButton
           sx={{ p: 0, "&:hover": { backgroundColor: "transparent" } }}
+          onClick={() => window.location.replace(window.location.href)}
         >
           <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
         </IconButton>
       </MainButtonGroupLayout>
       <AddFormLayout
-        openAddForm={openAddForm}
-        handleCloseAddForm={handleCloseAddForm}
+        openForm={openAddForm}
+        handleCloseForm={handleCloseAddForm}
       >
-        <AddDayTimeFrameForm handleCloseAddForm={handleCloseAddForm} />
+        <AddDayTimeFrameForm
+          handleCloseForm={handleCloseAddForm}
+          onChange={handleDayTimeFrameData}
+        />
       </AddFormLayout>
+      <MainTableLayout
+        dayTimeFrameData={dayTimeFrameData}
+        setDayTimeFrameData={setDayTimeFrameData}
+      />
     </Box>
   );
 }
