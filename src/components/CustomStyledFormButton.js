@@ -9,8 +9,15 @@ function CustomStyledFormButton(props) {
         py: "8px",
         px: "20px",
         width: "116px",
-        backgroundColor:
-          props.children === "Cancel" ? "#F0F0F0" : "secondary.main",
+        backgroundColor: () => {
+          if (props.children === "Cancel") {
+            return "#F0F0F0";
+          } else if (props.children === "Save") {
+            return "secondary.main";
+          } else if (props.children === "Delete") {
+            return "error.main";
+          }
+        },
         color: props.children === "Cancel" ? "info.main" : "#fff",
         fontWeight: 550,
         textTransform: "capitalize",
@@ -18,8 +25,15 @@ function CustomStyledFormButton(props) {
         lineHeight: "100%",
         fontSize: "1.2rem",
         "&:hover": {
-          backgroundColor:
-            props.children === "Cancel" ? "#F0F0F0" : "secondary.main",
+          backgroundColor: () => {
+            if (props.children === "Cancel") {
+              return "#F0F0F0";
+            } else if (props.children === "Save") {
+              return "secondary.main";
+            } else if (props.children === "Delete") {
+              return "error.main";
+            }
+          },
         },
       }}
     >
