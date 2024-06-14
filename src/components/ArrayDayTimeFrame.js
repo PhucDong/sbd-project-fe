@@ -1,5 +1,5 @@
 import CustomTimePicker from "./CustomTimePicker";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
 function ArrayDayTimeFrame(props) {
@@ -41,34 +41,41 @@ function ArrayDayTimeFrame(props) {
     });
   };
 
-  const handleDeleteDayTimeFrame = (dayTimeFrameId) => {
+  const handleDeleteTimeFrame = (dayTimeFrameId) => {
     const filteredDayTimeFrames = dayTimeFrames.filter(
       (dayTimeFrame, index) => index !== dayTimeFrameId
     );
     setIsDayTimeFrameDeleted(true);
     setDayTimeFrames(filteredDayTimeFrames);
+    setFormData({
+      ...formData,
+      dayTimeFrames:
+        filteredDayTimeFrames.length > 0 ? filteredDayTimeFrames : null,
+    });
   };
 
   return (
     <>
-      {dayTimeFrames?.length > 0
-        ? dayTimeFrames.map((dayTimeFrame, index) => (
-            <CustomTimePicker
-              key={index}
-              dayTimeFrameNumber={index}
-              startTime={dayTimeFrame.startingTime}
-              endTime={dayTimeFrame.endingTime}
-              onChange={(data) => handleChangeTimePicker(data, index)}
-              errorStartingTime={
-                errors?.[`dayTimeFrames[${index}].startingTime`]
-              }
-              errorEndingTime={errors?.[`dayTimeFrames[${index}].endingTime`]}
-              handleDeleteDayTimeFrame={handleDeleteDayTimeFrame}
-              isDayTimeFrameDeleted={isDayTimeFrameDeleted}
-              setIsDayTimeFrameDeleted={setIsDayTimeFrameDeleted}
-            />
-          ))
-        : ""}
+      {dayTimeFrames?.length > 0 ? (
+        dayTimeFrames.map((dayTimeFrame, index) => (
+          <CustomTimePicker
+            key={index}
+            dayTimeFrameNumber={index}
+            startTime={dayTimeFrame.startingTime}
+            endTime={dayTimeFrame.endingTime}
+            onChange={(data) => handleChangeTimePicker(data, index)}
+            errorStartingTime={errors?.[`dayTimeFrames[${index}].startingTime`]}
+            errorEndingTime={errors?.[`dayTimeFrames[${index}].endingTime`]}
+            handleDeleteTimeFrame={handleDeleteTimeFrame}
+            isDayTimeFrameDeleted={isDayTimeFrameDeleted}
+            setIsDayTimeFrameDeleted={setIsDayTimeFrameDeleted}
+          />
+        ))
+      ) : (
+        <Box sx={{ width: "100%", textAlign: "center", mt: "12px", color: "error.main" }}>
+          <Typography className="Mui-error">{errors?.dayTimeFrames}</Typography>
+        </Box>
+      )}
 
       <Box sx={{ mt: "12px", mx: "auto" }}>
         <Button
