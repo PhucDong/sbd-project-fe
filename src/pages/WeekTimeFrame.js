@@ -36,16 +36,294 @@ const useStyles = makeStyles({
 });
 
 function WeekTimeFrame() {
+
+  const StyledTableObject = useStyles();
+
+  const [rows, setRows] = useState([
+    { SerialNum: 1, Name: "", Monday: "", Tuesday: "", Wednesday: "", Thursday:"", Friday: "", Saturday: ""},
+  ]);
+
+  const [openAddForm, setOpenAddForm] = React.useState(false);
+  const [isEdit, setEdit] = React.useState(false);
+  const [disableForm, setDisableform] = React.useState(true);
+  const [showConfirmForm, setShowConfirmForm] = React.useState(true);
+
+  const handleCloseAddForm = (event, reason) => {
+    if (reason === "clickaway"){
+      return;
+    }
+    setOpenAddForm(false);
+  };
+  
+  const handleAddForm = () => {
+    setRows([
+      ...rows,
+      {
+        SerialNum: rows.length + 1, Name:"",Monday:"", Tuesday:"", Wednesday:"",Thursday:"",
+        Friday:"", Saturday:""
+      },
+    ]);
+    setEdit(true);
+  };
+
+  //Questionable
+  const handleEditForm = (i) => {
+    setEdit(!isEdit);
+  };
+  
+  const handleSaveForm= () => {
+    setEdit(!isEdit);
+    setRows(rows);
+    console.log("Saved: ", rows);
+    setDisableform(true);
+    setOpenAddForm(true);
+  };
+
+  const handleConfirmForm = () => {
+    setShowConfirmForm(true);
+  };
+
+  const handleRemoveClick = (i) => {
+    const formList = [...rows];
+    formList.splice(i, 1);
+    setRows(formList);
+    setShowConfirmForm(false);
+  };
+
+  const handleClickNo = () => {
+    setShowConfirmForm(false);
+  };
+
   return (
-    <Box>
-      <MainHeadingLayout>Week Time Frame Settin</MainHeadingLayout>
-      <MainButtonGroupLayout>
-        <CustomStyledAddButton startIcon={<AddIcon />}>
-          Not Add
-        </CustomStyledAddButton>
-      </MainButtonGroupLayout>
-    </Box>
-  );
+    <TableBody>
+      <Snackbar 
+      open={open}
+      autoHideDuration={1500}
+      onClose={handleCloseAddForm}
+      className={StyledTableObject.Snackbar}
+      >
+        <Alert onClose={handleCloseAddForm} severity="success">
+          Form saved successfully!
+        </Alert>
+      </Snackbar>
+      <Box margin={1}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <div>
+                        {isEdit ? (
+                            <div>
+                                <Button onClick={handleAddForm}>
+                                    <AddBoxIcon onClick={handleAddForm} />
+                                    ADD
+                                </Button>
+                                {rows.length !== 0 && (
+                                    <div>
+                                        {disable ? (
+                                            <Button disabled align="right"
+                                                             onClick={handleSaveForm}>
+                                                <DoneIcon />
+                                                SAVE
+                                            </Button>
+                                        ) : (
+                                            <Button align="right" onClick={handleSaveForm}>
+                                                <DoneIcon />
+                                                SAVE
+                                            </Button>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div>
+                                <Button onClick={handleAddForm}>
+                                    <AddBoxIcon onClick={handleAddForm} />
+                                    ADD
+                                </Button>
+                                <Button align="right" onClick={handleEditForm}>
+                                    <CreateIcon />
+                                    EDIT
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <TableRow align="center"> </TableRow>
+ 
+                <Table
+                    className={StyledTableObject.table}
+                    size="small"
+                    aria-label="a dense table"
+                >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>First Name</TableCell>
+                            <TableCell>Last Name</TableCell>
+                            <TableCell align="center">City</TableCell>
+                            <TableCell align="center"> </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row, i) => {
+                            return (
+                                <div>
+                                    <TableRow>
+                                        {isEdit ? (
+                                            <div>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Name}
+                                                        name="Name"
+                                                        onChange={(e) => 
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Monday}
+                                                        name="Monday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Tuesdayday}
+                                                        name="Tuesday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Wednesday}
+                                                        name="Wednesday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Thursday}
+                                                        name="Thursday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Friday}
+                                                        name="Friday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="none">
+                                                    <input
+                                                        value={row.Saturday}
+                                                        name="Saturday"
+                                                        onChange={(e) =>
+                                                        handleInputChange(e, i)}
+                                                    />
+                                                </TableCell>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Name}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Monday}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Thursday}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Tuesday}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Wednesday}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Friday}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row.Saturday}
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                    align="center"
+                                                ></TableCell>
+                                            </div>
+                                        )}
+                                        {isEdit ? (
+                                            <Button className="mr10"
+                                                     onClick={handleConfirmForm}>
+                                                <ClearIcon />
+                                            </Button>
+                                        ) : (
+                                            <Button className="mr10"
+                                                    onClick={handleConfirmForm}>
+                                                <DeleteOutlineIcon />
+                                            </Button>
+                                        )}
+                                        {showConfirmForm && (
+                                            <div>
+                                                <Dialog
+                                                    open={showConfirmForm}
+                                                    onClose={handleClickNo}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby=
+                                                        "alert-dialog-description"
+                                                >
+                                                    <DialogTitle id="alert-dialog-title">
+                                                        {"Confirm Delete"}
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText 
+                                                            id="alert-dialog-description">
+                                                            Are you sure to delete
+                                                        </DialogContentText>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button
+                                                            onClick={() => 
+                                                            handleRemoveClick(i)}
+                                                            color="primary"
+                                                            autoFocus
+                                                        >
+                                                            Yes
+                                                        </Button>
+                                                        <Button
+                                                            onClick={handleClickNo}
+                                                            color="primary"
+                                                            autoFocus
+                                                        >
+                                                            No
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </div>
+                                        )}
+                                    </TableRow>
+                                </div>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </Box>
+    </TableBody>
+  )
+
+  // return (
+  //   <Box>
+  //     <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
+  //     <MainButtonGroupLayout>
+  //       <CustomStyledAddButton startIcon={<AddIcon />}>
+  //         Add
+  //       </CustomStyledAddButton>
+  //     </MainButtonGroupLayout>
+  //   </Box>
+  // );
 }
 
 export default WeekTimeFrame;
