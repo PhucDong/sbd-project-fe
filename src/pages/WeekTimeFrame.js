@@ -1,11 +1,12 @@
 import AddIcon from "@mui/icons-material/Add";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
+import CustomStyledOperation from "../components/CustomStyledOperation";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import React, { useState } from "react";
 import { CustomStyledAddButton } from "../components/CustomStyledAddButton";
 import CreateIcon from "@material-ui/icons/Create";
 import {
-    Button, Snackbar, Table,
+    Snackbar, Table,
     TableBody, TableCell, TableHead, TableRow
 } from "@material-ui/core";
 import { Box, IconButton } from "@mui/material";
@@ -24,150 +25,144 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CustomStyledFormButton from "../components/CustomStyledFormButton";
 
 const useStyles = makeStyles({
-  table: {
-    border: "2px solid #222C34",
-    width: "800px",
-    height: "200px",
-  },
-  th: {
-    borderBottom: "1px solid black",
-  },
-  td: {
-    textAlign: "center",
-  },
+    table: {
+        border: "2px solid #222C34",
+        width: "800px",
+        height: "200px",
+    },
+    th: {
+        borderBottom: "1px solid black",
+    },
+    td: {
+        textAlign: "center",
+    },
 });
 
 function WeekTimeFrame() {
 
-  const StyledTableObject = useStyles();
+    const StyledTableObject = useStyles();
 
-  const [rows, setRows] = useState([
-    { SerialNum: 1, Name: "", Monday: "", Tuesday: "", Wednesday: "", Thursday:"", Friday: "", Saturday: ""},
-  ]);
-
-  const [openAddForm, setOpenAddForm] = React.useState(false);
-  const [isEdit, setEdit] = React.useState(false);
-  const [disableForm, setDisableform] = React.useState(true);
-  const [showConfirmForm, setShowConfirmForm] = React.useState(true);
-
-  const handleCloseAddForm = (event, reason) => {
-    if (reason === "clickaway"){
-      return;
-    }
-    setOpenAddForm(false);
-  };
-  
-  const handleAddForm = () => {
-    setRows([
-      ...rows,
-      {
-        SerialNum: rows.length + 1, Name:"",Monday:"", Tuesday:"", Wednesday:"",Thursday:"",
-        Friday:"", Saturday:""
-      },
+    const [rows, setRows] = useState([
+        { SerialNum: 1, Name: "", Monday: "", Tuesday: "", Wednesday: "", Thursday: "", Friday: "", Saturday: "" },
     ]);
-    setEdit(true);
-  };
 
-  const handleEditForm = (i) => {
-    setEdit(!isEdit);
-  };
-  
-  const handleSaveForm= () => {
-    setEdit(!isEdit);
-    setRows(rows);
-    console.log("Saved: ", rows);
-    setDisableform(true);
-    setOpenAddForm(true);
-  };
+    const [openAddForm, setOpenAddForm] = React.useState(false);
+    const [isEdit, setEdit] = React.useState(false);
+    const [disableForm, setDisableform] = React.useState(true);
+    const [showConfirmForm, setShowConfirmForm] = React.useState(true);
 
-  const handleInputChange = (e, index) => {
-    setDisableform(false);
-    const { name, value } = e.target;
-    const list = [...rows];
-    list[index][name] = value;
-    setRows(list);
-};
+    const handleCloseAddForm = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenAddForm(false);
+    };
 
-  const handleConfirmForm = () => {
-    setShowConfirmForm(true);
-  };
+    const handleAddForm = () => {
+        setRows([
+            ...rows,
+            {
+                SerialNum: rows.length + 1, Name: "", Monday: "", Tuesday: "", Wednesday: "", Thursday: "",
+                Friday: "", Saturday: ""
+            },
+        ]);
+        setEdit(true);
+    };
 
-  const handleRemoveClick = (i) => {
-    const formList = [...rows];
-    formList.splice(i, 1);
-    setRows(formList);
-    setShowConfirmForm(false);
-  };
+    const handleEditForm = (i) => {
+        setEdit(!isEdit);
+    };
 
-  const handleClickNo = () => {
-    setShowConfirmForm(false);
-  };
+    const handleSaveForm = () => {
+        setEdit(!isEdit);
+        setRows(rows);
+        console.log("Saved: ", rows);
+        setDisableform(true);
+        setOpenAddForm(true);
+    };
 
-  return (
-    <TableBody>
-      <Snackbar 
-      open={openAddForm}
-      autoHideDuration={1500}
-      onClose={handleCloseAddForm}
-      className={StyledTableObject.Snackbar}
-      >
-        <Alert onClose={handleCloseAddForm} severity="success">
-          Form saved successfully!
-        </Alert>
-      </Snackbar>
-      <Box>
-      <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
-      <MainButtonGroupLayout>
-        <CustomStyledAddButton
-          onClick={handleAddForm}
-          startIcon={<AddIcon />}
-        >
-          Add
-        </CustomStyledAddButton>
+    const handleInputChange = (e, index) => {
+        setDisableform(false);
+        const { name, value } = e.target;
+        const list = [...rows];
+        list[index][name] = value;
+        setRows(list);
+    };
 
-        <IconButton
-          sx={{ p: 0, "&:hover": { backgroundColor: "transparent" } }}
-          onClick={() => window.location.replace(window.location.href)}
-        >
-          <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
-        </IconButton>
-      </MainButtonGroupLayout>
-                
-                    
-                        {isEdit ? (
+    const handleConfirmForm = () => {
+        setShowConfirmForm(true);
+    };
+
+    const handleRemoveClick = (i) => {
+        const formList = [...rows];
+        formList.splice(i, 1);
+        setRows(formList);
+        setShowConfirmForm(false);
+    };
+
+    const handleClickNo = () => {
+        setShowConfirmForm(false);
+    };
+
+    return (
+        <TableBody>
+            <Snackbar
+                open={openAddForm}
+                autoHideDuration={1500}
+                onClose={handleCloseAddForm}
+                className={StyledTableObject.Snackbar}
+            >
+                <Alert onClose={handleCloseAddForm} severity="success">
+                    Form saved successfully!
+                </Alert>
+            </Snackbar>
+            <Box>
+                <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
+                <MainButtonGroupLayout>
+                    <CustomStyledAddButton
+                        onClick={handleAddForm}
+                        startIcon={<AddIcon />}
+                    >
+                        Add
+                    </CustomStyledAddButton>
+
+                    <IconButton
+                        sx={{ p: 0, "&:hover": { backgroundColor: "transparent" } }}
+                        onClick={() => window.location.replace(window.location.href)}
+                    >
+                        <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
+                    </IconButton>
+                </MainButtonGroupLayout>
+                {isEdit ? (
+                    <div>
+                        {rows.length !== 0 && (
                             <div>
-                                {rows.length !== 0 && (
-                                    <div>
-                                        {disableForm ? (
-                                            <CustomStyledFormButton disabled align="right" onClick={handleSaveForm}>
-                                                <DoneIcon />
-                                                SAVE
-                                            </CustomStyledFormButton>
-                                        ) : (
-                                            <CustomStyledFormButton align="right" onClick={handleSaveForm}>
-                                                <DoneIcon />
-                                                SAVE
-                                            </CustomStyledFormButton>
-                                        )}
-                                    </div>
+                                {disableForm ? (
+                                    <CustomStyledFormButton disabled align="right" onClick={handleSaveForm}>
+                                        <DoneIcon />
+                                        Save
+                                    </CustomStyledFormButton>
+                                ) : (
+                                    <CustomStyledFormButton align="right" onClick={handleSaveForm}>
+                                        <DoneIcon />
+                                        Save
+                                    </CustomStyledFormButton>
                                 )}
                             </div>
-                        ) : (
-                            <div>
-                                <Button onClick={handleAddForm}>
-                                    <AddBoxIcon onClick={handleAddForm} />
-                                    ADD
-                                </Button>
-                                <Button align="right" onClick={handleEditForm}>
-                                    <CreateIcon />
-                                    EDIT
-                                </Button>
-                            </div>
                         )}
-                    
-                
+                    </div>
+                ) : (
+                    <div>
+                        <CustomStyledOperation align="right" onClick={handleEditForm}>
+                            <CreateIcon />
+                            Modify
+                        </CustomStyledOperation>
+                    </div>
+                )}
+
+
                 <TableRow align="center"> </TableRow>
- 
+
                 <Table
                     className={StyledTableObject.table}
                     size="small"
@@ -175,6 +170,7 @@ function WeekTimeFrame() {
                 >
                     <TableHead>
                         <TableRow>
+                            <TableCell>Serial No.</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Monday</TableCell>
                             <TableCell>Tuesday</TableCell>
@@ -196,8 +192,8 @@ function WeekTimeFrame() {
                                                     <input
                                                         value={row.Name}
                                                         name="Name"
-                                                        onChange={(e) => 
-                                                        handleInputChange(e, i)}
+                                                        onChange={(e) =>
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -205,7 +201,7 @@ function WeekTimeFrame() {
                                                         value={row.Monday}
                                                         name="Monday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -213,7 +209,7 @@ function WeekTimeFrame() {
                                                         value={row.Tuesdayday}
                                                         name="Tuesday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -221,7 +217,7 @@ function WeekTimeFrame() {
                                                         value={row.Wednesday}
                                                         name="Wednesday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -229,7 +225,7 @@ function WeekTimeFrame() {
                                                         value={row.Thursday}
                                                         name="Thursday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -237,7 +233,7 @@ function WeekTimeFrame() {
                                                         value={row.Friday}
                                                         name="Friday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                                 <TableCell padding="none">
@@ -245,7 +241,7 @@ function WeekTimeFrame() {
                                                         value={row.Saturday}
                                                         name="Saturday"
                                                         onChange={(e) =>
-                                                        handleInputChange(e, i)}
+                                                            handleInputChange(e, i)}
                                                     />
                                                 </TableCell>
                                             </div>
@@ -280,15 +276,15 @@ function WeekTimeFrame() {
                                             </div>
                                         )}
                                         {isEdit ? (
-                                            <Button className="mr10"
-                                                     onClick={handleConfirmForm}>
+                                            <CustomStyledFormButton className="mr10"
+                                                onClick={handleConfirmForm}>
                                                 <ClearIcon />
-                                            </Button>
+                                            </CustomStyledFormButton>
                                         ) : (
-                                            <Button className="mr10"
-                                                    onClick={handleConfirmForm}>
+                                            <CustomStyledFormButton className="mr10"
+                                                onClick={handleConfirmForm}>
                                                 <DeleteOutlineIcon />
-                                            </Button>
+                                            </CustomStyledFormButton>
                                         )}
                                         {showConfirmForm && (
                                             <div>
@@ -297,33 +293,33 @@ function WeekTimeFrame() {
                                                     onClose={handleClickNo}
                                                     aria-labelledby="alert-dialog-title"
                                                     aria-describedby=
-                                                        "alert-dialog-description"
+                                                    "alert-dialog-description"
                                                 >
                                                     <DialogTitle id="alert-dialog-title">
                                                         {"Confirm Delete"}
                                                     </DialogTitle>
                                                     <DialogContent>
-                                                        <DialogContentText 
+                                                        <DialogContentText
                                                             id="alert-dialog-description">
                                                             Are you sure to delete
                                                         </DialogContentText>
                                                     </DialogContent>
                                                     <DialogActions>
-                                                        <Button
-                                                            onClick={() => 
-                                                            handleRemoveClick(i)}
-                                                            color="primary"
+                                                        <CustomStyledFormButton
+                                                            onClick={() =>
+                                                                handleRemoveClick(i)}
+                                                            
                                                             autoFocus
                                                         >
                                                             Yes
-                                                        </Button>
-                                                        <Button
+                                                        </CustomStyledFormButton>
+                                                        <CustomStyledFormButton
                                                             onClick={handleClickNo}
-                                                            color="primary"
+                                                            
                                                             autoFocus
                                                         >
                                                             No
-                                                        </Button>
+                                                        </CustomStyledFormButton>
                                                     </DialogActions>
                                                 </Dialog>
                                             </div>
@@ -335,19 +331,19 @@ function WeekTimeFrame() {
                     </TableBody>
                 </Table>
             </Box>
-    </TableBody>
-  )
+        </TableBody>
+    )
 
-  // return (
-  //   <Box>
-  //     <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
-  //     <MainButtonGroupLayout>
-  //       <CustomStyledAddButton startIcon={<AddIcon />}>
-  //         Add
-  //       </CustomStyledAddButton>
-  //     </MainButtonGroupLayout>
-  //   </Box>
-  // );
+    // return (
+    //   <Box>
+    //     <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
+    //     <MainButtonGroupLayout>
+    //       <CustomStyledAddButton startIcon={<AddIcon />}>
+    //         Add
+    //       </CustomStyledAddButton>
+    //     </MainButtonGroupLayout>
+    //   </Box>
+    // );
 }
 
 export default WeekTimeFrame;
