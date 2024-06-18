@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
@@ -79,6 +78,14 @@ function WeekTimeFrame() {
     setOpenAddForm(true);
   };
 
+  const handleInputChange = (e, index) => {
+    setDisableform(false);
+    const { name, value } = e.target;
+    const list = [...rows];
+    list[index][name] = value;
+    setRows(list);
+};
+
   const handleConfirmForm = () => {
     setShowConfirmForm(true);
   };
@@ -97,7 +104,7 @@ function WeekTimeFrame() {
   return (
     <TableBody>
       <Snackbar 
-      open={open}
+      open={openAddForm}
       autoHideDuration={1500}
       onClose={handleCloseAddForm}
       className={StyledTableObject.Snackbar}
@@ -117,7 +124,7 @@ function WeekTimeFrame() {
                                 </Button>
                                 {rows.length !== 0 && (
                                     <div>
-                                        {disable ? (
+                                        {disableForm ? (
                                             <Button disabled align="right"
                                                              onClick={handleSaveForm}>
                                                 <DoneIcon />
@@ -155,9 +162,13 @@ function WeekTimeFrame() {
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell>First Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                            <TableCell align="center">City</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Monday</TableCell>
+                            <TableCell>Tuesday</TableCell>
+                            <TableCell>Wednesday</TableCell>
+                            <TableCell>Thursday</TableCell>
+                            <TableCell align="center">Friday</TableCell>
+                            <TableCell align="center">Saturday</TableCell>
                             <TableCell align="center"> </TableCell>
                         </TableRow>
                     </TableHead>
