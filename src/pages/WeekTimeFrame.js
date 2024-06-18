@@ -8,6 +8,8 @@ import {
     Box, Button, Snackbar, Table,
     TableBody, TableCell, TableHead, TableRow
 } from "@material-ui/core";
+import { IconButton } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DoneIcon from "@material-ui/icons/Done";
@@ -117,7 +119,7 @@ function WeekTimeFrame() {
       <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
       <MainButtonGroupLayout>
         <CustomStyledAddButton
-          onClick={handleOpenAddForm}
+          onClick={handleAddForm}
           startIcon={<AddIcon />}
         >
           Add
