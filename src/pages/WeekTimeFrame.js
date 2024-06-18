@@ -113,7 +113,8 @@ function WeekTimeFrame() {
           Form saved successfully!
         </Alert>
       </Snackbar>
-      <Box margin={1}>
+      <Box>
+      <MainHeadingLayout>Day Time Frame Setting</MainHeadingLayout>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>
                         {isEdit ? (
