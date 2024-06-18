@@ -132,7 +132,7 @@ function WeekTimeFrame() {
           <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
         </IconButton>
       </MainButtonGroupLayout>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                
                     <div>
                         {isEdit ? (
                             <div>
@@ -170,7 +170,7 @@ function WeekTimeFrame() {
                             </div>
                         )}
                     </div>
-                </div>
+                
                 <TableRow align="center"> </TableRow>
  
                 <Table
