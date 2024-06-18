@@ -114,7 +114,22 @@ function WeekTimeFrame() {
         </Alert>
       </Snackbar>
       <Box>
-      <MainHeadingLayout>Day Time Frame Setting</MainHeadingLayout>
+      <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
+      <MainButtonGroupLayout>
+        <CustomStyledAddButton
+          onClick={handleOpenAddForm}
+          startIcon={<AddIcon />}
+        >
+          Add
+        </CustomStyledAddButton>
+
+        <IconButton
+          sx={{ p: 0, "&:hover": { backgroundColor: "transparent" } }}
+          onClick={() => window.location.replace(window.location.href)}
+        >
+          <CachedIcon sx={{ fontSize: "2.1rem", color: "primary.main" }} />
+        </IconButton>
+      </MainButtonGroupLayout>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>
                         {isEdit ? (
