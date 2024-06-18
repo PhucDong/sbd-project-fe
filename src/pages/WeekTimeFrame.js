@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import { CustomStyledAddButton } from "../components/CustomStyledAddButton";
 import CreateIcon from "@material-ui/icons/Create";
 import {
-    Box, Button, Snackbar, Table,
+    Button, Snackbar, Table,
     TableBody, TableCell, TableHead, TableRow
 } from "@material-ui/core";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
@@ -21,6 +21,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import CustomStyledFormButton from "../components/CustomStyledFormButton";
 
 const useStyles = makeStyles({
   table: {
@@ -67,7 +68,6 @@ function WeekTimeFrame() {
     setEdit(true);
   };
 
-  //Questionable
   const handleEditForm = (i) => {
     setEdit(!isEdit);
   };
@@ -133,26 +133,21 @@ function WeekTimeFrame() {
         </IconButton>
       </MainButtonGroupLayout>
                 
-                    <div>
+                    
                         {isEdit ? (
                             <div>
-                                <Button onClick={handleAddForm}>
-                                    <AddBoxIcon onClick={handleAddForm} />
-                                    ADD
-                                </Button>
                                 {rows.length !== 0 && (
                                     <div>
                                         {disableForm ? (
-                                            <Button disabled align="right"
-                                                             onClick={handleSaveForm}>
+                                            <CustomStyledFormButton disabled align="right" onClick={handleSaveForm}>
                                                 <DoneIcon />
                                                 SAVE
-                                            </Button>
+                                            </CustomStyledFormButton>
                                         ) : (
-                                            <Button align="right" onClick={handleSaveForm}>
+                                            <CustomStyledFormButton align="right" onClick={handleSaveForm}>
                                                 <DoneIcon />
                                                 SAVE
-                                            </Button>
+                                            </CustomStyledFormButton>
                                         )}
                                     </div>
                                 )}
@@ -169,7 +164,7 @@ function WeekTimeFrame() {
                                 </Button>
                             </div>
                         )}
-                    </div>
+                    
                 
                 <TableRow align="center"> </TableRow>
  
