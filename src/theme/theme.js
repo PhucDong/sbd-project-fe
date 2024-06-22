@@ -37,6 +37,7 @@ const theme = createTheme({
           height: "100%",
           minHeight: "100vh",
           fontSize: "16px",
+          fontFamily: "Open Sans, sans-serif",
         },
         "img, picture, video, canvas, svg": {
           display: "block",
@@ -53,7 +54,6 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         lineHeight: "100%",
-        fontFamily: "Open Sans, sans-serif",
       },
     },
     MuiButtonBase: {
