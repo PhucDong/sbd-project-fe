@@ -1,5 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
+import MainTableLayout from "../components/MainTableLayout";
 import CustomStyledOperation from "../components/CustomStyledOperation";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import React, { useState } from "react";
@@ -62,6 +63,11 @@ function WeekTimeFrame() {
   const [isEdit, setEdit] = React.useState(false);
   const [disableForm, setDisableform] = React.useState(true);
   const [showConfirmForm, setShowConfirmForm] = React.useState(true);
+  const [weekTimeFrameData, setWeekTimeFrameData] = useState([]);
+
+  const handleWeekTimeFrameData = (formData) => {
+    setWeekTimeFrameData([...weekTimeFrameData, {...formData}]);
+  };
 
   const handleCloseAddForm = (event, reason) => {
     if (reason === "clickaway") {
@@ -347,6 +353,10 @@ function WeekTimeFrame() {
           </TableBody>
         </Table>
       </Box>
+      <MainTableLayout
+      weekTimeFrameData={weekTimeFrameData}
+      setWeekTimeFrameData={setWeekTimeFrameData}
+      />
     </TableBody>
   );
 
