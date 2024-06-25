@@ -1,86 +1,162 @@
-import CreateIcon from "@material-ui/icons/Create"
 import {
-  Box, Button, Snackbar, Table,
-  TableBody, TableCell, TableHead, TableRow
-} from "@material-ui/core";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import DoneIcon from "@material-ui/icons/Done";
-import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+  Box,
+  InputLabel,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CustomStyledFormButton from "./CustomStyledFormButton";
+import dayjs from "dayjs";
+import "../App.css";
+import ArrayDayTimeFrame from "./ArrayDayTimeFrame";
+import { useState } from "react";
+import { validationSchema } from "../utils/formSchema";
+import { formatFormData } from "../utils/formFormat";
 
-const useStyles = makeStyles({
-  table: {
-    border: "2px solid #222C34",
-    width: "800px",
-    height: "200px",
-  },
-  th: {
-    borderBottom: "1px solid black",
-  },
-  td: {
-    textAlign: "center",
-  },
-})
-
-const selectOptions = [
+const deviceSerialNumbers = [
   {
     value: 1,
-    label: 1,
+    label: "1",
   },
   {
     value: 2,
-    label: 2,
+    label: "2",
   },
   {
     value: 3,
-    label: 3,
+    label: "3",
   },
   {
     value: 4,
-    label: 4,
+    label: "4",
   },
 ];
 
-function AddWeekTimeFrameForm({ handleCloseAddForm }) {
-  const classes = useStyles();
-  const [rows, setRows] = useState([
-    { SerialNum: 1, Name: "", Monday: "", Tuesday: "", Wednesday: "", Thursday:"", Friday: "", Saturday: ""},
+function AddWeekTimeFrameForm(props) {
+  const { handleCloseForm, onChange } = [props];
+  const [errors, setErrors] = useState(null);
+  const [openSerialNoDropdownMenu, setOpenSerialNoDropdownMenu] = useState(false);
+  const [isWeekTimeFrameDeleted, setIsWeekTimeFrameDeleted] = useState(false);
+  const [weekTimeFrames, setWeekTimeFrames] = useState([
+    {
+      weekTimeFrameIndex: 0,
+      startingTime: dayjs(null),
+      endingTime: dayjs(null),
+    },
   ]);
+  const [formData, setFormData] = useState({
+    serialNumber: deviceSerialNumbers[0].value,
+    weekTimeFrameName: "",
+    weekTimeFrames: weekTimeFrames,
+  });
 
-  // Initial states
-  const handleCloseAddForm = (onCloseAddForm, reason) => {
-    if (reason === "clickaway") {
-      return;
+  const handleOpenSerialNoDropdownMenu = () =>
+    setOpenSerialNoDropdownMenu(true);
+
+  const handleCloseSerialNoDropdownMenu = () =>
+    setOpenSerialNoDropdownMenu(false);
+
+  const handleChangeFormInput = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleChangeWeekTimeFrames = (newWeekTimeFrameArray) => {
+    setFormData({ ...formData, weekTimeFrames: [...newWeekTimeFrameArray] });
+  };
+
+  const handleSubmitFormData = async (e) => {
+    e.preventDefault();
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      const formattedFormData = formatFormData(formData);
+      onChange(formattedFormData);
+      handleCloseForm();
+    } catch (err) {
+      setErrors(err.errors);
     }
-  }
+  };
+
   return (
     <>
-      <Typography>Add Week Time Frame</Typography>
-      <TextField
-        name="select-week-time-frame"
-        required
-        select
-        label="Serial No."
-        defaultValue={1}
-        inputProps={{ id: "select-week-time-frame" }}
-        InputLabelProps={{ htmlFor: "select-week-time-frame" }}
+      <Box className="form-header">
+        <Typography>Add Week Time Frame</Typography>
+      </Box>
+      <Box className="form-body">
+        <InputLabel
+          id="serial-number-label"
+          className="section-label"
+          htmlFor="serial-number"
+        >
+          Serial No.
+        </InputLabel>
+        <TextField
+          name="serialNumber"
+          className="section-input"
+          required
+          type="number" max="999" step="1"
+          value={formData.serialNumber}
+          onChange={handleChangeFormInput}
+          inputProps={{ id: "serial-number" }}
+          error={errors?.serialNumber}
+          helperText={errors?.serialNumber && errors.serialNumber}
+          SelectProps={{
+            open: openSerialNoDropdownMenu,
+            onClose: handleCloseSerialNoDropdownMenu,
+            onOpen: handleOpenSerialNoDropdownMenu,
+            IconComponent: KeyboardArrowRightIcon,
+          }}
+          sx={{
+            "& .MuiSvgIcon-root": {
+              transform: openSerialNoDropdownMenu && "rotate(90deg)",
+            },
+          }}
+        >
+          {/*this shit missing*/}
+        </TextField>
+      </Box>
+      <Box className="form-section">
+        <InputLabel
+          id="name-input-label"
+          className="section-label"
+          htmlFor="name-input"
+        >
+          Name
+        </InputLabel>
+        <TextField
+          name="weekTimeFrameName"
+          className="section-input"
+          required
+          type="text"
+          hiddenLabel
+          value={formData.weekTimeFrameName}
+          inputProps={{ id: "name-input" }}
+        placeholder="Enter week time frame name"
+        error = {errors?.weekTimeFrameName && errors.weekTimeFrameName}
+        onChange={handleChangeFormInput}
+        />
+      </Box>
+      <Box
+        sx={{
+          mt: "40px",
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+        }}
       >
-        {selectOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-      <Button onClick={handleCloseAddForm}>Close</Button>
+        <CustomStyledFormButton onClick={handleCloseForm}>
+          Cancel
+        </CustomStyledFormButton>
+        <CustomStyledFormButton onClick={handleSubmitFormData}>
+          Save
+        </CustomStyledFormButton>
+      </Box>
     </>
-  );
+  )
 }
 
 export default AddWeekTimeFrameForm;
