@@ -4,7 +4,7 @@ import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import AddFormLayout from "../layouts/AddFormLayout";
-import AddWeelTimeFrameForm from "../components/AddWeekTimeFrameForm";
+import AddWeekTimeFrameForm from "../components/AddWeekTimeFrameForm";
 import CachedIcon from "@mui/icons-material/Cached";
 import { CustomStyledAddButton } from "../components/CustomStyledAddButton";
 import MainTableLayout from "../components/MainTableLayout";
