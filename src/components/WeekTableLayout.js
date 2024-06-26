@@ -9,7 +9,7 @@ import DeleteAlert from "./DeleteAlert";
 function WeekTableLayout(props) {
     const { weekTimeFrameData, setWeekTimeFrameData } = props;
     const [rows, setRows] = useState(
-        weekTimeFrameData.map((data) => (data.operations = ["Modify", "Delete"]))
+        weekTimeFrameData?.map((data) => (data.operations = ["Modify", "Delete"]))
     );
     const [selectedRow, setSelectedRow] = useState(null);
     const [openModifyForm, setOpenModifyForm] = useState(false);
