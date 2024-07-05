@@ -1,6 +1,12 @@
 # SBD Project
 Latest update: **5 July 2024**
 
+## Project Description
+The project acts as an admin dashboard to manage device access of all employess to a building, and their accounts.
+
+## Technologies
+- Frontend: ReactJS, JavaScript, Material UI, Figma
+
 ## Testing
 - AccessPermission page: The pagination feature of all Data Grid components (done)
 
