@@ -14,11 +14,8 @@ import AccessRecord from "./pages/AccessRecord";
 import DoorStatusRecord from "./pages/DoorStatusRecord";
 import GroupManagement from "./pages/GroupManagement";
 import DeviceManagement from "./pages/DeviceManagement";
-import ParameterSettings from "./pages/ParameterSettings";
-import CompanyInformation from "./pages/CompanyInformation";
 import Department from "./pages/Department";
 import UserAccount from "./pages/UserAccount";
-import MonthManagement from "./pages/MonthManagement";
 import DayTimeFrame from "./pages/DayTimeFrame";
 
 const router = createBrowserRouter(
@@ -59,20 +56,8 @@ const router = createBrowserRouter(
           path="system-settings/device-management"
           element={<DeviceManagement />}
         />
-        <Route
-          path="system-settings/parameter-settings"
-          element={<ParameterSettings />}
-        />
-        <Route
-          path="system-settings/company-information"
-          element={<CompanyInformation />}
-        />
         <Route path="system-settings/department" element={<Department />} />
         <Route path="system-settings/user-account" element={<UserAccount />} />
-        <Route
-          path="system-settings/month-management"
-          element={<MonthManagement />}
-        />
       </Route>
     </Route>
   )
