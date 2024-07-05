@@ -1,22 +1,25 @@
 import {
   Box,
-  Button,
-  IconButton,
-  InputAdornment,
+  Checkbox,
+  ListItemText,
   MenuItem,
   TextField,
   styled,
 } from "@mui/material";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import dayjs from "dayjs";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import PermissionTransferList from "../components/AccessPermission/PermissionTransferList.js";
+import DoorShiftList from "../components/AccessPermission/DoorShiftList.js";
 
 export const CustomStyledAccessPermission = styled(Box)(({ theme }) => ({
   "& .big-flex": {
     display: "flex",
     alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
   },
   "& .first-row": {
     marginBottom: "12px",
@@ -28,13 +31,13 @@ export const CustomStyledAccessPermission = styled(Box)(({ theme }) => ({
     gap: "8px",
     flex: 1,
   },
-  "& .big-flex label": {
+  "& .small-flex label": {
     color: theme.palette.primary.main,
     flex: 0.5,
     textAlign: "right",
     fontWeight: 550,
   },
-  "& .big-flex .select": {
+  "& .small-flex .select": {
     flex: 0.5,
   },
   "& .MuiInputBase-root": {
@@ -55,138 +58,182 @@ export const CustomStyledAccessPermission = styled(Box)(({ theme }) => ({
   },
 }));
 
-const aList = [
-  {
-    deviceName: "a1",
-    serialNumber: "jfkejkfjf",
-    dayTimeFrameName: "All Day",
-  },
-  {
-    deviceName: "a2",
-    serialNumber: "abcfffgg",
-    dayTimeFrameName: "Part Time",
-  },
-  {
-    deviceName: "a3",
-    serialNumber: "fgrgeggr",
-    dayTimeFrameName: "All Day",
-  },
-  {
-    deviceName: "a4",
-    serialNumber: "gutuuyuyu",
-    dayTimeFrameName: "Not In",
-  },
-];
-
-const accessDeviceList = [
+const accessPermission = [
   {
     startDate: "18/06/2024",
     endDate: "18/06/2024",
-    accessDevices: [
+    accessDeviceList: [
       {
         serialNumber: "a1",
-        dayTimeFrameName: "All Day",
+        doorName: "Door a1",
+        dayTimeFrameNames: ["All Day", "Not In", "Part Time"],
       },
       {
         serialNumber: "a2",
-        dayTimeFrameName: "Part Time",
+        doorName: "Door a2",
+        dayTimeFrameNames: ["Not In", "Part Time"],
       },
       {
         serialNumber: "a3",
-        dayTimeFrameName: "All Day",
+        doorName: "Door a3",
+        dayTimeFrameNames: ["All Day", "Not In"],
       },
     ],
     unAuthorizedUsers: [
       {
         userId: 1,
-        fullName: "Minh Phuc",
+        fullName: "Dong Vu Minh Phuc",
         department: "R&D",
       },
       {
         userId: 2,
-        fullName: "Thanh Xuan",
+        fullName: "Pham Tra Thanh Xuan",
         department: "Marketing",
       },
       {
         userId: 3,
-        fullName: "Tra Giang",
+        fullName: "Nguyen Kieu Giang",
         department: "Sales",
       },
       {
         userId: 4,
-        fullName: "Tuan Tu",
+        fullName: "Ngo Tuan Tu",
         department: "Sales",
       },
     ],
+    authorizedUsers: [],
   },
   {
     startDate: "18/06/2024",
     endDate: "20/06/2024",
-    accessDevices: [
+    accessDeviceList: [
       {
         serialNumber: "a1",
-        dayTimeFrameName: "All Day",
+        doorName: "Door a1",
+        dayTimeFrameNames: ["All Day", "Not In", "Part Time"],
       },
       {
         serialNumber: "a2",
-        dayTimeFrameName: "Part Time",
+        doorName: "Door a2",
+        dayTimeFrameNames: ["Not In", "Part Time"],
       },
       {
         serialNumber: "a3",
-        dayTimeFrameName: "All Day",
+        doorName: "Door a3",
+        dayTimeFrameNames: ["All Day", "Not In"],
       },
       {
         serialNumber: "a4",
-        dayTimeFrameName: "Not In",
+        doorName: "Door a4",
+        dayTimeFrameNames: ["All Day", "Not In", "Part Time"],
       },
       {
         serialNumber: "a5",
-        dayTimeFrameName: "Part Time",
+        doorName: "Door a5",
+        dayTimeFrameNames: ["Not In", "Part Time"],
       },
     ],
     unAuthorizedUsers: [
       {
         userId: 1,
-        fullName: "Minh Phuc",
+        fullName: "Dong Vu Minh Phuc",
         department: "R&D",
       },
       {
         userId: 2,
-        fullName: "Thanh Xuan",
+        fullName: "Pham Tra Thanh Xuan",
         department: "Marketing",
       },
       {
         userId: 3,
-        fullName: "Tra Giang",
+        fullName: "Nguyen Kieu Giang",
         department: "Sales",
       },
       {
         userId: 4,
-        fullName: "Tuan Tu",
+        fullName: "Ngo Tuan Tu",
         department: "Sales",
       },
       {
         userId: 5,
-        fullName: "Thu Cat",
+        fullName: "Nguyen Pham Thu Cat",
         department: "Developer",
       },
       {
         userId: 6,
-        fullName: "Xuan Truong",
+        fullName: "Ngo Xuan Truong",
+        department: "Developer",
+      },
+      {
+        userId: 7,
+        fullName: "Vo Xuan Trong",
+        department: "R&D",
+      },
+      {
+        userId: 8,
+        fullName: "Pham Tra Thanh Truc",
+        department: "Marketing",
+      },
+      {
+        userId: 9,
+        fullName: "Nguyen Phan Nam",
+        department: "Sales",
+      },
+      {
+        userId: 10,
+        fullName: "Ngo Diem Truc",
+        department: "Sales",
+      },
+      {
+        userId: 11,
+        fullName: "Nguyen Pham Thu Thuy",
+        department: "Developer",
+      },
+      {
+        userId: 12,
+        fullName: "Ngo Xuan Trong",
+        department: "Developer",
+      },
+      {
+        userId: 13,
+        fullName: "Nguyen Phan Luan",
+        department: "Sales",
+      },
+      {
+        userId: 14,
+        fullName: "Ngan Trung Xuan",
+        department: "Sales",
+      },
+      {
+        userId: 15,
+        fullName: "Vo Trong Nghia",
+        department: "Developer",
+      },
+      {
+        userId: 16,
+        fullName: "Vo Trong Nam",
         department: "Developer",
       },
     ],
+    authorizedUsers: [],
   },
 ];
+
+function filteredSerialNumber(accessDeviceList, serialNoList) {
+  const filteredAccessDeviceList = accessDeviceList.filter(
+    (device) => serialNoList.indexOf(device.serialNumber) !== -1
+  );
+
+  return filteredAccessDeviceList;
+}
 
 function AccessPermission() {
   const [accessStartingDate, setAccessStartingDate] = useState(dayjs("null"));
   const [accessEndingDate, setAccessEndingDate] = useState(dayjs("null"));
-  const [accessDevice, setAccessDevice] = useState("");
-  const [doorStatus, setDoorStatus] = useState("");
+  const [accessDevice, setAccessDevice] = useState([]);
   const [openAccessDeviceDropdownMenu, setOpenAccessDeviceDropdownMenu] =
     useState(false);
-  const [openDoorDropdownMenu, setOpenDoorDropdownMenu] = useState(false);
+  const [doorShiftList, setDoorShiftList] = useState([]);
 
   const handleChangeAccessStartingDate = (newAccessStartingDate) => {
     setAccessStartingDate(newAccessStartingDate);
@@ -201,54 +248,23 @@ function AccessPermission() {
   const handleOpenAccessDeviceDropdownMenu = () =>
     setOpenAccessDeviceDropdownMenu(true);
 
-  const handleCloseDoorDropdownMenu = () => setOpenDoorDropdownMenu(false);
-  const handleOpenDoorDropdownMenu = () => setOpenDoorDropdownMenu(true);
-
-  const handleChangeAccessDevice = (e) => {
-    console.log("Access device: ", e.target.value);
-    setAccessDevice(e.target.value);
+  const handleChangeAccessDevice = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setAccessDevice(value);
   };
 
-  const handleChangeDoorStatus = (e) => {
-    console.log("Door status: ", e.target.value);
-    setDoorStatus(e.target.value);
-  };
-
-  // useEffect(() => {
-  //   if (cleared) {
-  //     const timeout = setTimeout(() => {
-  //       setCleared(false);
-  //     }, 1500);
-
-  //     return () => clearTimeout(timeout);
-  //   }
-  //   return () => {};
-  // }, [cleared]);
+  const handleDoorShiftList = useCallback((data) => {
+    setDoorShiftList(data);
+  }, []);
 
   return (
     <CustomStyledAccessPermission>
       <MainHeadingLayout>Permission Assignment</MainHeadingLayout>
-      <Button
-        sx={{
-          textTransform: "capitalize",
-          backgroundColor: "secondary.main",
-          px: "20px",
-          py: "8px",
-          mb: "32px",
-          borderRadius: "20px",
-          fontWeight: 600,
-          lineHeight: "100%",
-          fontSize: "1.1rem",
-          color: "#fff",
-          "&:hover": {
-            backgroundColor: "secondary.main",
-          },
-        }}
-      >
-        View User Permission
-      </Button>
 
       <Box className="big-flex first-row">
+        {/* Start Date */}
         <Box className="small-flex">
           <Box component="label" htmlFor="access-start-date">
             Start Date
@@ -269,6 +285,7 @@ function AccessPermission() {
           />
         </Box>
 
+        {/* End Date */}
         <Box className="small-flex">
           <Box component="label" htmlFor="access-end-date">
             End Date
@@ -291,125 +308,113 @@ function AccessPermission() {
         </Box>
       </Box>
 
-      <Box className="big-flex">
-        {accessDeviceList.map(
-          (option, index) =>
-            option.startDate === accessStartingDate.format("DD/MM/YYYY") &&
-            option.endDate === accessEndingDate.format("DD/MM/YYYY") && (
-              <Box key={index} className="small-flex">
-                <Box
-                  component="label"
-                  id="access-device-label"
-                  htmlFor="access-device"
-                >
-                  Access Device
+      {/* Access Device & Door Shifts */}
+      {accessPermission.map(
+        (option, index) =>
+          option.startDate === accessStartingDate.format("DD/MM/YYYY") &&
+          option.endDate === accessEndingDate.format("DD/MM/YYYY") && (
+            <Box key={index}>
+              <Box className="big-flex" sx={{ mb: "32px" }}>
+                {/* Access Device */}
+                <Box className="small-flex">
+                  <Box sx={{ textAlign: "right", fontWeight: 550, flex: 0.5 }}>
+                    Access Device
+                  </Box>
+                  <TextField
+                    className="select"
+                    name="accessDevice"
+                    select
+                    hiddenLabel
+                    SelectProps={{
+                      multiple: true,
+                      value: accessDevice,
+                      renderValue: (selected) => selected.join(", "),
+                      onChange: handleChangeAccessDevice,
+                      open: openAccessDeviceDropdownMenu,
+                      onClose: handleCloseAccessDeviceDropdownMenu,
+                      onOpen: handleOpenAccessDeviceDropdownMenu,
+                      IconComponent: KeyboardArrowRightIcon,
+                      MenuProps: {
+                        PaperProps: {
+                          sx: {
+                            padding: "8px 0",
+                            boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)",
+                            borderRadius: "8px",
+                          },
+                        },
+                        sx: {
+                          "& .MuiMenu-list": {
+                            padding: 0,
+                            "& .MuiMenuItem-root": {
+                              padding: "8px 20px",
+                              gap: "4px",
+                              "& .MuiCheckbox-root": {
+                                padding: 0,
+                              },
+                              "& .MuiTypography-root": {
+                                color: "info.main",
+                                fontSize: "0.95rem",
+                                fontWeight: 550,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    }}
+                    sx={{
+                      "& .MuiSvgIcon-root": {
+                        transform:
+                          openAccessDeviceDropdownMenu && "rotate(90deg)",
+                      },
+                    }}
+                  >
+                    {option.accessDeviceList.map((device, index) => (
+                      <MenuItem key={index} value={device.serialNumber}>
+                        <Checkbox
+                          checked={
+                            accessDevice.indexOf(device.serialNumber) > -1
+                          }
+                        />
+                        <ListItemText primary={device.serialNumber} />
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Box>
-                <TextField
-                  className="select"
-                  name="accessDevice"
-                  select
-                  hiddenLabel
-                  value={accessDevice}
-                  onChange={handleChangeAccessDevice}
-                  inputProps={{ id: "access-device" }}
-                  SelectProps={{
-                    open: openAccessDeviceDropdownMenu,
-                    onClose: handleCloseAccessDeviceDropdownMenu,
-                    onOpen: handleOpenAccessDeviceDropdownMenu,
-                    IconComponent: KeyboardArrowRightIcon,
-                  }}
-                  sx={{
-                    "& .MuiSvgIcon-root": {
-                      transform:
-                        openAccessDeviceDropdownMenu && "rotate(90deg)",
-                    },
-                  }}
-                >
-                  {option.accessDevices.map((accessDevice, index) => (
-                    <MenuItem key={index} value={accessDevice.serialNumber}>
-                      {accessDevice.serialNumber}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-            )
-        )}
 
-        {/* <Box className="small-flex">
-          <Box component="label" id="door-device-label" htmlFor="door-device">
-            Door 1
-          </Box>
-          <TextField
-            className="select"
-            name="doorDevice"
-            required
-            select
-            hiddenLabel
-            value={doorStatus}
-            onChange={handleChangeDoorStatus}
-            inputProps={{ id: "door-device" }}
-            SelectProps={{
-              open: openDoorDropdownMenu,
-              onClose: handleCloseDoorDropdownMenu,
-              onOpen: handleOpenDoorDropdownMenu,
-              IconComponent: KeyboardArrowRightIcon,
-            }}
-            sx={{
-              "& .MuiSvgIcon-root": {
-                transform: openDoorDropdownMenu && "rotate(90deg)",
-              },
-            }}
-          >
-            {aList.map((option, index) => (
-              <MenuItem key={index} value={option.dayTimeFrameName}>
-                {option.dayTimeFrameName}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box> */}
+                {accessDevice.length === 0 ||
+                filteredSerialNumber(option.accessDeviceList, accessDevice)
+                  .length === 0 ? (
+                  <Box className="small-flex" />
+                ) : (
+                  ""
+                )}
 
-        {accessDeviceList.map(
-          (option, index) =>
-            option.startDate === accessStartingDate.format("DD/MM/YYYY") &&
-            option.endDate === accessEndingDate.format("DD/MM/YYYY") && (
-              <Box key={index} className="small-flex">
-                <Box
-                  component="label"
-                  id="door-device-label"
-                  htmlFor="door-device"
-                >
-                  Door 1
-                </Box>
-                <TextField
-                  className="select"
-                  name="doorDevice"
-                  select
-                  hiddenLabel
-                  value={doorStatus}
-                  onChange={handleChangeDoorStatus}
-                  inputProps={{ id: "door-device" }}
-                  SelectProps={{
-                    open: openDoorDropdownMenu,
-                    onClose: handleCloseDoorDropdownMenu,
-                    onOpen: handleOpenDoorDropdownMenu,
-                    IconComponent: KeyboardArrowRightIcon,
-                  }}
-                  sx={{
-                    "& .MuiSvgIcon-root": {
-                      transform: openDoorDropdownMenu && "rotate(90deg)",
-                    },
-                  }}
-                >
-                  {option.accessDevices.map((accessDevice, index) => (
-                    <MenuItem key={index} value={accessDevice.dayTimeFrameName}>
-                      {accessDevice.dayTimeFrameName}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                {/* Door Shifts */}
+                {accessDevice.length > 0 &&
+                filteredSerialNumber(option.accessDeviceList, accessDevice)
+                  .length > 0 ? (
+                  <DoorShiftList
+                    key={index}
+                    filteredAccessDeviceList={filteredSerialNumber(
+                      option.accessDeviceList,
+                      accessDevice
+                    )}
+                    onChange={handleDoorShiftList}
+                  />
+                ) : (
+                  ""
+                )}
               </Box>
-            )
-        )}
-      </Box>
+
+              {/* Permission Transfer List */}
+              <PermissionTransferList
+                unAuthorizedUsers={option.unAuthorizedUsers}
+                authorizedUsers={option.authorizedUsers}
+                doorShiftList={doorShiftList}
+              />
+            </Box>
+          )
+      )}
     </CustomStyledAccessPermission>
   );
 }
