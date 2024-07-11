@@ -1,6 +1,7 @@
-import CustomTimePicker from "./CustomTimePicker";
+import CustomTimePickerGroup from "./CustomTimePickerGroup";
 import { Box, Button, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import { useCallback, useEffect, useRef } from "react";
 
 function ArrayDayTimeFrame(props) {
   const {
@@ -13,31 +14,45 @@ function ArrayDayTimeFrame(props) {
     setIsDayTimeFrameDeleted,
   } = props;
 
-  const handleChangeTimePicker = (data, timeIndex) => {
-    if (data.startingTime.isValid() && data.endingTime.isValid()) {
-      const updatedDayTimeFrames = dayTimeFrames.map((dayTimeFrame, index) => {
-        if (timeIndex === index) {
-          return { dayTimeFrameIndex: timeIndex, ...data };
-        }
-        return { dayTimeFrameIndex: timeIndex, ...dayTimeFrame };
-      });
+  // const dayTimeFramesRef = useRef(dayTimeFrames);
 
-      setDayTimeFrames(updatedDayTimeFrames);
-      setFormData({ ...formData, dayTimeFrames: [...updatedDayTimeFrames] });
-    }
-  };
+  const handleChangeTimePicker = useCallback(
+    (data) => {
+      setDayTimeFrames((prevDayTimeFrames) => {
+        const currentDayTimeFrames = [...prevDayTimeFrames];
+
+        if (data.startingTime.isValid() && data.endingTime.isValid()) {
+          currentDayTimeFrames.forEach((dayTimeFrame, index) => {
+            if (data.dayTimeFrameIndex === index) {
+              currentDayTimeFrames[index] = data;
+            } else {
+              currentDayTimeFrames[index] = {
+                dayTimeFrameIndex: index,
+                ...dayTimeFrame,
+              };
+            }
+          });
+        }
+
+        // dayTimeFramesRef.current = currentDayTimeFrames;
+
+        return currentDayTimeFrames;
+      });
+      // console.log("onChange function run!");
+    },
+    [setDayTimeFrames]
+  );
 
   const handleAddNewTimeFrame = () => {
-    setDayTimeFrames((prevItems) => [
-      ...prevItems,
-      { startingTime: dayjs(null), endingTime: dayjs(null) },
-    ]);
-    setFormData({
-      ...formData,
-      dayTimeFrames: [
-        ...dayTimeFrames,
+    setDayTimeFrames((prevItems) => {
+      const newDayTimeFrames = [
+        ...prevItems,
         { startingTime: dayjs(null), endingTime: dayjs(null) },
-      ],
+      ];
+
+      // dayTimeFramesRef.current = newDayTimeFrames;
+
+      return newDayTimeFrames;
     });
   };
 
@@ -47,23 +62,39 @@ function ArrayDayTimeFrame(props) {
     );
     setIsDayTimeFrameDeleted(true);
     setDayTimeFrames(filteredDayTimeFrames);
-    setFormData({
-      ...formData,
-      dayTimeFrames:
-        filteredDayTimeFrames.length > 0 ? filteredDayTimeFrames : null,
-    });
+
+    // dayTimeFramesRef.current = filteredDayTimeFrames;
   };
+
+  // Problem
+  // useEffect(() => {
+  //   setFormData({
+  //     ...formData,
+  //     dayTimeFrames: [...dayTimeFrames],
+  //   });
+  //   console.log("useEffect 1 run!");
+  // }, [dayTimeFrames, formData, setFormData]);
+
+  // Solution
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      // dayTimeFrames: [...dayTimeFramesRef.current],
+      dayTimeFrames: [...dayTimeFrames],
+    }));
+    // console.log("useEffect 1 run!");
+  }, [dayTimeFrames, setFormData]);
 
   return (
     <>
       {dayTimeFrames?.length > 0 ? (
         dayTimeFrames.map((dayTimeFrame, index) => (
-          <CustomTimePicker
+          <CustomTimePickerGroup
             key={index}
             dayTimeFrameNumber={index}
             startTime={dayTimeFrame.startingTime}
             endTime={dayTimeFrame.endingTime}
-            onChange={(data) => handleChangeTimePicker(data, index)}
+            onChange={handleChangeTimePicker}
             errorStartingTime={errors?.[`dayTimeFrames[${index}].startingTime`]}
             errorEndingTime={errors?.[`dayTimeFrames[${index}].endingTime`]}
             handleDeleteTimeFrame={handleDeleteTimeFrame}
@@ -72,7 +103,14 @@ function ArrayDayTimeFrame(props) {
           />
         ))
       ) : (
-        <Box sx={{ width: "100%", textAlign: "center", mt: "12px", color: "error.main" }}>
+        <Box
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            mt: "12px",
+            color: "error.main",
+          }}
+        >
           <Typography className="Mui-error">{errors?.dayTimeFrames}</Typography>
         </Box>
       )}

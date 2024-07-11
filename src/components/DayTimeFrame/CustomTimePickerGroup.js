@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function CustomTimePicker(props) {
+function CustomTimePickerGroup(props) {
   const {
     dayTimeFrameNumber,
     startTime,
@@ -37,7 +37,12 @@ function CustomTimePicker(props) {
       setIsDayTimeFrameDeleted(false);
       return;
     }
-    onChange({ startingTime, endingTime });
+    onChange({
+      dayTimeFrameIndex: dayTimeFrameNumber,
+      startingTime,
+      endingTime,
+    });
+    // console.log("useEffect 2 run!");
   }, [
     onChange,
     startingTime,
@@ -46,6 +51,7 @@ function CustomTimePicker(props) {
     endTime,
     isDayTimeFrameDeleted,
     setIsDayTimeFrameDeleted,
+    dayTimeFrameNumber,
   ]);
 
   return (
@@ -60,9 +66,11 @@ function CustomTimePicker(props) {
           gap: "6px",
         }}
       >
+        {/* Start time */}
         <TimePicker
           views={["hours", "minutes"]}
-          value={dayjs(startTime).isValid() ? dayjs(startTime) : startingTime}
+          // value={dayjs(startTime).isValid() ? dayjs(startTime) : startingTime}
+          value={startingTime}
           onChange={handleChangeStartingTime}
           slotProps={{
             actionBar: {
@@ -70,7 +78,7 @@ function CustomTimePicker(props) {
             },
             textField: {
               error: errorStartingTime ? true : false,
-              helperText: errorStartingTime ? "Starting time is required." : "",
+              helperText: errorStartingTime && "Starting time is required.",
             },
           }}
           sx={{
@@ -80,9 +88,11 @@ function CustomTimePicker(props) {
             },
           }}
         />
+        {/* End time */}
         <TimePicker
           views={["hours", "minutes"]}
-          value={dayjs(endTime).isValid() ? dayjs(endTime) : endingTime}
+          // value={dayjs(endTime).isValid() ? dayjs(endTime) : endingTime}
+          value={endingTime}
           onChange={handleChangeEndingTime}
           slotProps={{
             actionBar: {
@@ -90,7 +100,7 @@ function CustomTimePicker(props) {
             },
             textField: {
               error: errorEndingTime ? true : false,
-              helperText: errorEndingTime ? "Ending time is required." : "",
+              helperText: errorEndingTime && "Ending time is required.",
             },
           }}
           sx={{
@@ -100,6 +110,8 @@ function CustomTimePicker(props) {
             },
           }}
         />
+
+        {/* Delete a time frame */}
         <IconButton
           sx={{ p: 0, height: "100%" }}
           onClick={() => handleDeleteTimeFrame(dayTimeFrameNumber)}
@@ -116,4 +128,4 @@ function CustomTimePicker(props) {
   );
 }
 
-export default CustomTimePicker;
+export default CustomTimePickerGroup;

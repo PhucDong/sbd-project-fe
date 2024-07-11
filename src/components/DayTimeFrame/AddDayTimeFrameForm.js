@@ -6,13 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import CustomStyledFormButton from "./CustomStyledFormButton";
+import CustomStyledFormButton from "../CustomStyledFormButton";
 import dayjs from "dayjs";
-import "../App.css";
+import "../../App.css";
 import ArrayDayTimeFrame from "./ArrayDayTimeFrame";
 import { useState } from "react";
-import { validationSchema } from "../utils/formSchema";
-import { formatFormData } from "../utils/formFormat";
+import { validationSchema } from "../../utils/formSchema";
+import { formatFormData } from "../../utils/formFormat";
 
 const deviceSerialNumbers = [
   {
@@ -34,7 +34,8 @@ const deviceSerialNumbers = [
 ];
 
 function AddDayTimeFrameForm(props) {
-  const { handleCloseForm, onChange } = props;
+  const { handleCloseForm, onChange, dayTimeFrameData } =
+    props;
   const [errors, setErrors] = useState(null);
   const [openSerialNoDropdownMenu, setOpenSerialNoDropdownMenu] =
     useState(false);
@@ -72,7 +73,10 @@ function AddDayTimeFrameForm(props) {
   const handleSubmitFormData = async (e) => {
     e.preventDefault();
     try {
-      await validationSchema.validate(formData, { abortEarly: false });
+      await validationSchema.validate(formData, {
+        abortEarly: false,
+        context: { dayTimeFrameData: dayTimeFrameData },
+      });
       const formattedFormData = formatFormData(formData);
       onChange(formattedFormData);
       handleCloseForm();
@@ -130,7 +134,7 @@ function AddDayTimeFrameForm(props) {
             ))}
           </TextField>
         </Box>
-        
+
         {/* Day time frame name */}
         <Box className="form-section">
           <InputLabel
@@ -153,7 +157,7 @@ function AddDayTimeFrameForm(props) {
             onChange={handleChangeFormInput}
           />
         </Box>
-        
+
         {/* Day time frames */}
         <Box className="form-section form-section-direction">
           <ArrayDayTimeFrame
@@ -168,6 +172,7 @@ function AddDayTimeFrameForm(props) {
           />
         </Box>
 
+        {/* Cancel & save buttons */}
         <Box
           sx={{
             mt: "40px",

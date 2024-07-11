@@ -1,4 +1,5 @@
 # SBD Project
+Latest update: **11 July 2024**
 Latest update: **5 July 2024**
 
 ## Project Description
@@ -19,6 +20,7 @@ The project acts as an admin dashboard to manage device access of all employess 
   - Solution: set **autoHeight** prop to the Data Grid component and set height to auto to its Box wrapper component.
 - In AccessPermission page, the table on the right of the Transfer List doesn't render each door shift that associates with each door
   - Solution: changed the fields that match the columns of Data Grid.
+- Can't update day time frames properly
 
 ## Future Features
 - Nest a pop-up delete alert modal for the Modify form
@@ -27,3 +29,4 @@ The project acts as an admin dashboard to manage device access of all employess 
 - In all Data Grid components, change background color of selected rows
 - Persist data on current page when switching between sidemenu items
 - In Transfer List of AccessPermission page, add filter feature for all tables
+- Delete all selected day time frames at the same time
