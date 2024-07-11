@@ -1,13 +1,13 @@
 import { Box, IconButton } from "@mui/material";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import AddFormLayout from "../layouts/AddFormLayout";
-import AddDayTimeFrameForm from "../components/AddDayTimeFrameForm";
+import AddDayTimeFrameForm from "../components/DayTimeFrame/AddDayTimeFrameForm";
 import CachedIcon from "@mui/icons-material/Cached";
-import { CustomStyledAddButton } from "../components/CustomStyledAddButton";
-import MainTableLayout from "../components/MainTableLayout";
+import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
+import DayTimeFrameTable from "../components/DayTimeFrameTable";
 
 function DayTimeFrame() {
   const [openAddForm, setOpenAddForm] = useState(false);
@@ -23,6 +23,7 @@ function DayTimeFrame() {
     <Box>
       <MainHeadingLayout>Day Time Frame Setting</MainHeadingLayout>
       <MainButtonGroupLayout>
+        {/* Add new data to the table */}
         <CustomStyledAddButton
           onClick={handleOpenAddForm}
           startIcon={<AddIcon />}
@@ -30,6 +31,7 @@ function DayTimeFrame() {
           Add
         </CustomStyledAddButton>
 
+        {/* Refresh to fetch newest data */}
         <IconButton
           sx={{ p: 0, "&:hover": { backgroundColor: "transparent" } }}
           onClick={() => window.location.replace(window.location.href)}
@@ -44,9 +46,10 @@ function DayTimeFrame() {
         <AddDayTimeFrameForm
           handleCloseForm={handleCloseAddForm}
           onChange={handleDayTimeFrameData}
+          dayTimeFrameData={dayTimeFrameData}
         />
       </AddFormLayout>
-      <MainTableLayout
+      <DayTimeFrameTable
         dayTimeFrameData={dayTimeFrameData}
         setDayTimeFrameData={setDayTimeFrameData}
       />
