@@ -1,7 +1,7 @@
 import { Box, InputLabel, TextField, Typography } from "@mui/material";
 import CustomStyledFormButton from "./CustomStyledFormButton";
 import "../App.css";
-import ArrayDayTimeFrame from "./ArrayDayTimeFrame";
+import ArrayDayTimeFrame from "./DayTimeFrame/ArrayDayTimeFrame";
 import { useState } from "react";
 import { formatFormData } from "../utils/formFormat";
 import { validationSchema } from "../utils/formSchema";
