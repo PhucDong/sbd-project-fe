@@ -7,8 +7,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 function CustomTimePickerGroup(props) {
   const {
     dayTimeFrameNumber,
-    startTime,
-    endTime,
+    newStartTime,
+    newEndTime,
     onChange,
     errorStartingTime,
     errorEndingTime,
@@ -16,9 +16,12 @@ function CustomTimePickerGroup(props) {
     isDayTimeFrameDeleted,
     setIsDayTimeFrameDeleted,
   } = props;
-  const [startingTime, setStartingTime] = useState(dayjs(null));
-  const [endingTime, setEndingTime] = useState(dayjs(null));
-
+  const [startingTime, setStartingTime] = useState(
+    dayjs(newStartTime).isValid() ? dayjs(newStartTime) : null
+  );
+  const [endingTime, setEndingTime] = useState(
+    dayjs(newEndTime).isValid() ? dayjs(newEndTime) : null
+  );
   const handleChangeStartingTime = (newStartingTime) => {
     setStartingTime(newStartingTime);
   };
@@ -28,27 +31,25 @@ function CustomTimePickerGroup(props) {
   };
 
   useEffect(() => {
-    if (startTime === startingTime && endTime === endingTime) {
-      return;
-    }
     if (isDayTimeFrameDeleted) {
-      setStartingTime(startTime);
-      setEndingTime(endTime);
+      setStartingTime(newStartTime);
+      setEndingTime(newEndTime);
       setIsDayTimeFrameDeleted(false);
       return;
     }
-    onChange({
-      dayTimeFrameIndex: dayTimeFrameNumber,
-      startingTime,
-      endingTime,
-    });
-    // console.log("useEffect 2 run!");
+    if (startingTime || endingTime) {
+      onChange({
+        dayTimeFrameIndex: dayTimeFrameNumber,
+        startingTime,
+        endingTime,
+      });
+    }
   }, [
     onChange,
     startingTime,
     endingTime,
-    startTime,
-    endTime,
+    newStartTime,
+    newEndTime,
     isDayTimeFrameDeleted,
     setIsDayTimeFrameDeleted,
     dayTimeFrameNumber,
@@ -69,7 +70,6 @@ function CustomTimePickerGroup(props) {
         {/* Start time */}
         <TimePicker
           views={["hours", "minutes"]}
-          // value={dayjs(startTime).isValid() ? dayjs(startTime) : startingTime}
           value={startingTime}
           onChange={handleChangeStartingTime}
           slotProps={{
@@ -91,8 +91,9 @@ function CustomTimePickerGroup(props) {
         {/* End time */}
         <TimePicker
           views={["hours", "minutes"]}
-          // value={dayjs(endTime).isValid() ? dayjs(endTime) : endingTime}
+          disabled={startingTime ? false : true}
           value={endingTime}
+          minTime={startingTime}
           onChange={handleChangeEndingTime}
           slotProps={{
             actionBar: {
