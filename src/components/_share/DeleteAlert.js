@@ -2,7 +2,7 @@ import { Box, Modal, Typography, styled } from "@mui/material";
 import React from "react";
 import CustomStyledFormButton from "./CustomStyledFormButton";
 
-const CustomStyledDeleteAlert = styled(Box)(({ theme }) => ({
+const CustomStyledDeleteAlert = styled(Box)(() => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -21,29 +21,13 @@ const CustomStyledDeleteAlert = styled(Box)(({ theme }) => ({
 }));
 
 function DeleteAlert(props) {
-  const {
-    openDeleteAlert,
-    handleCloseDeleteAlert,
-    selectedRowData,
-    rowsData,
-    setRowsData,
-    setDayTimeFrameData,
-  } = props;
-
-  const handleDeleteDayTimeFrame = () => {
-    const filteredRowsData = rowsData.filter(
-      (rowData) => rowData.serialNumber !== selectedRowData.serialNumber
-    );
-    setRowsData(filteredRowsData);
-    setDayTimeFrameData(filteredRowsData);
-    handleCloseDeleteAlert();
-  };
+  const { openDeleteAlert, handleCloseDeleteAlert, onClick, message } = props;
 
   return (
     <Modal open={openDeleteAlert} onClose={handleCloseDeleteAlert}>
       <CustomStyledDeleteAlert>
         <Box className="delete-text">
-          <Typography>Do you want to delete this day time frame?</Typography>
+          <Typography>{message}</Typography>
         </Box>
 
         <Box
@@ -58,7 +42,7 @@ function DeleteAlert(props) {
           <CustomStyledFormButton onClick={handleCloseDeleteAlert}>
             Cancel
           </CustomStyledFormButton>
-          <CustomStyledFormButton onClick={handleDeleteDayTimeFrame}>
+          <CustomStyledFormButton onClick={onClick}>
             Delete
           </CustomStyledFormButton>
         </Box>

@@ -27,7 +27,6 @@ function CustomStyledOperation(props) {
         )}
         {children}
       </IconButton>
-      
     </>
   );
 }
