@@ -108,7 +108,6 @@ function RightTable(props) {
             justifyContent: "center",
             fontSize: "0.9rem",
             color: "info.light",
-            backgroundColor: "#fafafa",
             py: "8px",
           },
           "& .MuiDataGrid-overlayWrapper": {
