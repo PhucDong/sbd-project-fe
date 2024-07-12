@@ -1,11 +1,10 @@
 import CustomTimePickerGroup from "./CustomTimePickerGroup";
 import { Box, Button, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 
 function ArrayDayTimeFrame(props) {
   const {
-    formData,
     setFormData,
     dayTimeFrames,
     setDayTimeFrames,
@@ -21,7 +20,7 @@ function ArrayDayTimeFrame(props) {
       setDayTimeFrames((prevDayTimeFrames) => {
         const currentDayTimeFrames = [...prevDayTimeFrames];
 
-        if (data.startingTime.isValid() && data.endingTime.isValid()) {
+        if (data.startingTime?.isValid() || data.endingTime?.isValid()) {
           currentDayTimeFrames.forEach((dayTimeFrame, index) => {
             if (data.dayTimeFrameIndex === index) {
               currentDayTimeFrames[index] = data;
@@ -38,7 +37,6 @@ function ArrayDayTimeFrame(props) {
 
         return currentDayTimeFrames;
       });
-      // console.log("onChange function run!");
     },
     [setDayTimeFrames]
   );
@@ -79,10 +77,8 @@ function ArrayDayTimeFrame(props) {
   useEffect(() => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      // dayTimeFrames: [...dayTimeFramesRef.current],
       dayTimeFrames: [...dayTimeFrames],
     }));
-    // console.log("useEffect 1 run!");
   }, [dayTimeFrames, setFormData]);
 
   return (
@@ -92,8 +88,8 @@ function ArrayDayTimeFrame(props) {
           <CustomTimePickerGroup
             key={index}
             dayTimeFrameNumber={index}
-            startTime={dayTimeFrame.startingTime}
-            endTime={dayTimeFrame.endingTime}
+            newStartTime={dayTimeFrame.startingTime}
+            newEndTime={dayTimeFrame.endingTime}
             onChange={handleChangeTimePicker}
             errorStartingTime={errors?.[`dayTimeFrames[${index}].startingTime`]}
             errorEndingTime={errors?.[`dayTimeFrames[${index}].endingTime`]}
