@@ -292,6 +292,7 @@ function AccessPermission() {
           </Box>
           <DatePicker
             className="select"
+            disabled={accessStartingDate.isValid() ? false : true}
             value={accessEndingDate}
             onChange={handleChangeAccessEndingDate}
             format="DD/MM/YYYY"
