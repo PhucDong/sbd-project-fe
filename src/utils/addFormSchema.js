@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const validationSchema = Yup.object().shape({
+export const addValidationSchema = Yup.object().shape({
   serialNumber: Yup.string().required("Serial number is required."),
   dayTimeFrameName: Yup.string()
     .required("Day time frame name is required.")
@@ -25,7 +25,7 @@ export const validationSchema = Yup.object().shape({
       }
     ),
   dayTimeFrames: Yup.array()
-    .required("Day time frames are required.")
+    .min(1, "Day time frames are required.")
     .of(
       Yup.object().shape({
         startingTime: Yup.date().required(),
