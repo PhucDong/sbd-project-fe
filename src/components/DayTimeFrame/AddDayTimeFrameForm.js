@@ -6,12 +6,11 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import CustomStyledFormButton from "../CustomStyledFormButton";
+import CustomStyledFormButton from "../_share/CustomStyledFormButton";
 import dayjs from "dayjs";
-import "../../App.css";
 import ArrayDayTimeFrame from "./ArrayDayTimeFrame";
 import { useState } from "react";
-import { validationSchema } from "../../utils/formSchema";
+import { addValidationSchema } from "../../utils/addFormSchema";
 import { formatFormData } from "../../utils/formFormat";
 
 const deviceSerialNumbers = [
@@ -34,8 +33,7 @@ const deviceSerialNumbers = [
 ];
 
 function AddDayTimeFrameForm(props) {
-  const { handleCloseForm, onChange, dayTimeFrameData } =
-    props;
+  const { handleCloseForm, onChange, dayTimeFrameData } = props;
   const [errors, setErrors] = useState(null);
   const [openSerialNoDropdownMenu, setOpenSerialNoDropdownMenu] =
     useState(false);
@@ -73,11 +71,11 @@ function AddDayTimeFrameForm(props) {
   const handleSubmitFormData = async (e) => {
     e.preventDefault();
     try {
-      await validationSchema.validate(formData, {
+      const formattedFormData = formatFormData(formData);
+      await addValidationSchema.validate(formattedFormData, {
         abortEarly: false,
         context: { dayTimeFrameData: dayTimeFrameData },
       });
-      const formattedFormData = formatFormData(formData);
       onChange(formattedFormData);
       handleCloseForm();
     } catch (error) {
