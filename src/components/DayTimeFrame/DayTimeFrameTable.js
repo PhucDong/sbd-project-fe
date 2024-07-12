@@ -1,16 +1,19 @@
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import CustomStyledOperation from "./CustomStyledOperation";
+import CustomStyledOperation from "../_share/CustomStyledOperation";
 import CustomDayTimeFrameChip from "./CustomDayTimeFrameChip";
 import { useEffect, useState } from "react";
-import AddFormLayout from "../layouts/AddFormLayout";
+import AddFormLayout from "../../layouts/AddFormLayout";
 import ModifyDayTimeFrameForm from "./ModifyDayTimeFrameForm";
-import DeleteAlert from "./DeleteAlert";
+import { CustomNoRowsOverlay } from "../../utils/tableNoData";
+import DeleteAlert from "../_share/DeleteAlert";
 
 function DayTimeFrameTable(props) {
-  const { dayTimeFrameData, setDayTimeFrameData } = props;
+  const { dayTimeFrameData, setDayTimeFrameData, onChange } = props;
   const [rows, setRows] = useState(
-    dayTimeFrameData.map((data) => (data.operations = ["Modify", "Delete"]))
+    dayTimeFrameData.length > 0
+      ? dayTimeFrameData.map((data) => (data.operations = ["Modify", "Delete"]))
+      : []
   );
   const [selectedRow, setSelectedRow] = useState(null);
   const [openModifyForm, setOpenModifyForm] = useState(false);
@@ -35,9 +38,10 @@ function DayTimeFrameTable(props) {
   };
 
   const handleUpdatedDayTimeFrameData = (updatedData) => {
-    setRows(
+    console.log("Updated data: ", updatedData);
+    setDayTimeFrameData(
       rows.map((row) =>
-        row.serialNumber === updatedData.serialNumber
+        row.dayTimeFrameName === selectedRow.dayTimeFrameName
           ? { ...updatedData, operations: ["Modify", "Delete"] }
           : row
       )
@@ -133,87 +137,108 @@ function DayTimeFrameTable(props) {
     },
   ];
 
+  const handleDeleteDayTimeFrame = () => {
+    const filteredRowsData = rows.filter(
+      (rowData) => rowData.dayTimeFrameName !== selectedRow.dayTimeFrameName
+    );
+    setRows(filteredRowsData);
+    setDayTimeFrameData(filteredRowsData);
+    handleCloseDeleteAlert();
+  };
+
   useEffect(() => {
     if (dayTimeFrameData.length > 0) {
       setRows(dayTimeFrameData);
+    } else {
+      setRows([]);
     }
   }, [dayTimeFrameData]);
 
+  useEffect(() => {
+    if (rows.length > 0) {
+      onChange(rows.length === dayTimeFrameRow.length);
+    } else {
+      onChange(false);
+    }
+  }, [onChange, dayTimeFrameRow.length, rows.length]);
+
   return (
     <>
-      <Box sx={{ height: "auto", width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          getRowId={(row) => row.dayTimeFrameName}
-          columnHeaderHeight={44}
-          disableColumnMenu={true}
-          disableColumnSorting={true}
-          autoHeight
-          checkboxSelection
-          onRowSelectionModelChange={(newRowSelectionModel) => {
-            setDayTimeFrameRow(newRowSelectionModel);
-          }}
-          rowSelectionModel={dayTimeFrameRow}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        getRowId={(row) => row.dayTimeFrameName}
+        columnHeaderHeight={44}
+        disableColumnMenu={true}
+        disableColumnSorting={true}
+        getRowHeight={() => 52}
+        checkboxSelection
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setDayTimeFrameRow(newRowSelectionModel);
+        }}
+        rowSelectionModel={dayTimeFrameRow}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-          pageSizeOptions={[10]}
-          sx={{
-            mt: "12px",
-            borderRadius: "8px",
-            "& .MuiDataGrid-scrollbarFiller": {
-              display: "none",
-            },
-            "& .MuiDataGrid-columnHeader": {
-              p: 0,
-              backgroundColor: "#F0F0F0",
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              color: "#70787A",
-              fontWeight: 550,
-              fontSize: "0.95rem",
-              lineHeight: "100%",
-            },
-            "& .MuiDataGrid-cell": {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              fontSize: "1rem",
-              color: "info.light",
-              backgroundColor: "#fafafa",
-              py: "8px",
-            },
-          }}
-        />
-      </Box>
+          },
+        }}
+        pageSizeOptions={[10]}
+        slots={{ noRowsOverlay: CustomNoRowsOverlay }}
+        sx={{
+          mt: "12px",
+          borderRadius: "8px",
+          "& .MuiDataGrid-scrollbarFiller": {
+            display: "none",
+          },
+          "& .MuiDataGrid-filler": { display: "none" },
+          "& .MuiDataGrid-columnHeader": {
+            p: 0,
+            backgroundColor: "#F0F0F0",
+          },
+          "& .MuiDataGrid-columnHeaderTitle": {
+            color: "#70787A",
+            fontWeight: 550,
+            fontSize: "0.95rem",
+            lineHeight: "100%",
+          },
+          "& .MuiDataGrid-cell": {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            fontSize: "1rem",
+            color: "info.light",
+            py: "8px",
+          },
+          "& .MuiDataGrid-overlayWrapper": {
+            height: "80px",
+            width: "100%",
+          },
+          "& .MuiDataGrid-overlayWrapperInner": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            maxHeight: "100%",
+          },
+        }}
+      />
       <AddFormLayout
         openForm={openModifyForm}
         handleCloseForm={handleCloseModifyForm}
       >
         <ModifyDayTimeFrameForm
           selectedRowData={selectedRow}
-          openDeleteAlert={openDeleteAlert}
-          handleOpenDeleteAlert={handleOpenDeleteAlert}
-          handleCloseDeleteAlert={handleCloseDeleteAlert}
           handleCloseModifyForm={handleCloseModifyForm}
           onChange={handleUpdatedDayTimeFrameData}
-          rowsData={rows}
-          setRowsData={setRows}
-          setDayTimeFrameData={setDayTimeFrameData}
+          dayTimeFrameData={dayTimeFrameData}
         />
       </AddFormLayout>
       <DeleteAlert
         openDeleteAlert={openDeleteAlert}
         handleCloseDeleteAlert={handleCloseDeleteAlert}
-        selectedRowData={selectedRow}
-        rowsData={rows}
-        setRowsData={setRows}
-        setDayTimeFrameData={setDayTimeFrameData}
+        onClick={handleDeleteDayTimeFrame}
+        message="Do you want to delete this day time frame?"
       />
     </>
   );

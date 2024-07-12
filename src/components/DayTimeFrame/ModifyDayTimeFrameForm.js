@@ -1,13 +1,13 @@
 import { Box, InputLabel, TextField, Typography } from "@mui/material";
-import CustomStyledFormButton from "./CustomStyledFormButton";
-import "../App.css";
-import ArrayDayTimeFrame from "./DayTimeFrame/ArrayDayTimeFrame";
+import CustomStyledFormButton from "../_share/CustomStyledFormButton";
+import ArrayDayTimeFrame from "./ArrayDayTimeFrame";
 import { useState } from "react";
-import { formatFormData } from "../utils/formFormat";
-import { validationSchema } from "../utils/formSchema";
+import { formatFormData } from "../../utils/formFormat";
+import { modifyValidationSchema } from "../../utils/modifyFormSchema";
 
 function ModifyDayTimeFrameForm(props) {
-  const { onChange, selectedRowData, handleCloseModifyForm } = props;
+  const { onChange, selectedRowData, handleCloseModifyForm, dayTimeFrameData } =
+    props;
   const [errors, setErrors] = useState(null);
   const [isDayTimeFrameDeleted, setIsDayTimeFrameDeleted] = useState(false);
   const [dayTimeFrames, setDayTimeFrames] = useState(
@@ -34,8 +34,14 @@ function ModifyDayTimeFrameForm(props) {
   const handleSubmitFormData = async (e) => {
     e.preventDefault();
     try {
-      await validationSchema.validate(formData, { abortEarly: false });
       const formattedFormData = formatFormData(formData);
+      await modifyValidationSchema.validate(formattedFormData, {
+        abortEarly: false,
+        context: {
+          dayTimeFrameData: dayTimeFrameData,
+          selectedDayTimeFrameName: selectedRowData.dayTimeFrameName,
+        },
+      });
       onChange(formattedFormData);
       handleCloseModifyForm();
     } catch (error) {
@@ -44,6 +50,7 @@ function ModifyDayTimeFrameForm(props) {
         newErrors[err.path] = err.message;
       });
       setErrors(newErrors);
+      // console.log("Modify form errors: ", error);
     }
   };
 
