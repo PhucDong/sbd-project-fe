@@ -61,6 +61,22 @@ const theme = createTheme({
         disableRipple: true,
       },
     },
+    MuiDataGrid: {
+      styleOverrides: {
+        row: {
+          backgroundColor: "#fafafa",
+          "&:hover": {
+            backgroundColor: "#fafafa",
+          },
+          "&.Mui-selected": {
+            backgroundColor: "#e8f7fc",
+            "&:hover": {
+              backgroundColor: "#e8f7fc",
+            },
+          },
+        },
+      },
+    },
   },
 });
 
