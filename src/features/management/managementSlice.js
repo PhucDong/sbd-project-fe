@@ -70,9 +70,9 @@ const initialState = {
           addFormHeading: "Device",
         },
         {
-          path: "department",
-          label: "Department",
-          mainHeading: "Department",
+          path: "upper-department",
+          label: "Upper Department",
+          mainHeading: "Upper Department",
           addFormHeading: "Upper Department",
         },
         {
