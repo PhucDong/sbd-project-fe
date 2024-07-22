@@ -33,10 +33,11 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
       fontWeight: 550,
     },
     "& .section-input": {
-      width: "100%",
+      width: "72%",
       "& .MuiInputBase-root": {
-        height: "40px",
+        height: "100%",
         borderRadius: "8px",
+        padding: 0,
         "& .MuiOutlinedInput-input": {
           padding: "8px 0 8px 20px",
           color: theme.palette.info.main,
@@ -46,6 +47,7 @@ export const CustomStyledModalContent = styled(Box)(({ theme }) => ({
         margin: "0 8px",
         marginTop: "4px",
       },
+      "& .MuiIconButton-root": { padding: 0, marginRight: "14px" },
     },
     "& .form-section": {
       width: "100%",
