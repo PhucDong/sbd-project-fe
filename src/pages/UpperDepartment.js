@@ -77,7 +77,7 @@ function UpperDepartment() {
 
   return (
     <Box>
-      <MainHeadingLayout>UpperDepartment</MainHeadingLayout>
+      <MainHeadingLayout>Upper Department</MainHeadingLayout>
       <MainButtonGroupLayout>
         <Box sx={{ display: "flex", gap: "4px" }}>
           <CustomStyledAddButton
