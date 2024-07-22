@@ -14,9 +14,9 @@ import AccessRecord from "./pages/AccessRecord";
 import DoorStatusRecord from "./pages/DoorStatusRecord";
 import GroupManagement from "./pages/GroupManagement";
 import DeviceManagement from "./pages/DeviceManagement";
-import Department from "./pages/Department";
 import UserAccount from "./pages/UserAccount";
 import DayTimeFrame from "./pages/DayTimeFrame";
+import UpperDepartment from "./pages/UpperDepartment";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,7 +56,7 @@ const router = createBrowserRouter(
           path="system-settings/device-management"
           element={<DeviceManagement />}
         />
-        <Route path="system-settings/department" element={<Department />} />
+        <Route path="system-settings/upper-department" element={<UpperDepartment />} />
         <Route path="system-settings/user-account" element={<UserAccount />} />
       </Route>
     </Route>
