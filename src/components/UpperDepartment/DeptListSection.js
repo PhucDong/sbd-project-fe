@@ -6,7 +6,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 function DeptListSection(props) {
