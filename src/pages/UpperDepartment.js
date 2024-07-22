@@ -3,10 +3,10 @@ import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import AddIcon from "@mui/icons-material/Add";
 import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
-import DepartmentTable from "../components/Department/DepartmentTable";
+import UpperDepartmentTable from "../components/UpperDepartment/UpperDepartmentTable";
 import AddFormLayout from "../layouts/AddFormLayout";
 import { useCallback, useRef, useState } from "react";
-import AddDepartmentForm from "../components/Department/AddDepartmentForm";
+import AddUpperDeptForm from "../components/UpperDepartment/AddUpperDeptForm";
 import CustomStyledDeleteAllButton from "../components/DayTimeFrame/CustomStyledDeleteAllButton";
 import DeleteAlert from "../components/_share/DeleteAlert";
 
@@ -33,7 +33,7 @@ const manageDeptList = [
   },
 ];
 
-function Department() {
+function UpperDepartment() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const upperDeptDataRef = useRef([]);
   const [areAllRowsChecked, setAreAllRowsChecked] = useState(false);
@@ -77,7 +77,7 @@ function Department() {
 
   return (
     <Box>
-      <MainHeadingLayout>Department</MainHeadingLayout>
+      <MainHeadingLayout>UpperDepartment</MainHeadingLayout>
       <MainButtonGroupLayout>
         <Box sx={{ display: "flex", gap: "4px" }}>
           <CustomStyledAddButton
@@ -95,14 +95,14 @@ function Department() {
         openForm={openAddForm}
         handleCloseForm={handleCloseAddForm}
       >
-        <AddDepartmentForm
+        <AddUpperDeptForm
           manageDeptList={manageDeptList}
           upperDeptData={upperDeptDataRef}
           handleCloseForm={handleCloseAddForm}
           onChange={handleUpperDeptData}
         />
       </AddFormLayout>
-      <DepartmentTable
+      <UpperDepartmentTable
         manageDeptList={manageDeptList}
         upperDeptData={upperDeptDataRef}
         onChange={handleAreAllRowsChecked}
@@ -119,4 +119,4 @@ function Department() {
   );
 }
 
-export default Department;
+export default UpperDepartment;

@@ -4,54 +4,61 @@ import { useCallback, useRef, useState } from "react";
 import CustomStyledFormButton from "../_share/CustomStyledFormButton";
 import dayjs from "dayjs";
 import DeptListSection from "./DeptListSection";
-import { formatDeptFormData } from "./formatDeptFormData";
-import { addUpperDeptFormSchema } from "./addUpperDeptFormSchema";
+import { modifyUpperDeptFormSchema } from "./modifyUpperDeptFormSchema";
+import { formatUpperDeptFormData } from "./formatUpperDeptFormData";
 
-function AddDepartmentForm(props) {
-  const { handleCloseForm, onChange, manageDeptList, upperDeptData } = props;
+function ModifyUpperDeptForm(props) {
+  const {
+    selectedRowData,
+    handleCloseForm,
+    onChange,
+    manageDeptList,
+    upperDeptData,
+  } = props;
   const [errors, setErrors] = useState(null);
 
-  const upperDeptNameRef = useRef("");
-  const createDateRef = useRef(dayjs(null));
-  const remarkRef = useRef("");
+  const upperDeptName = selectedRowData.upperDeptName
+    ? selectedRowData.upperDeptName
+    : "";
+  const [createDate, setCreateDate] = useState(
+    selectedRowData.createDate.isValid()
+      ? selectedRowData.createDate
+      : dayjs(null)
+  );
+  const [remark, setRemark] = useState(
+    selectedRowData.remark && selectedRowData.remark
+  );
 
-  const addFormDataRef = useRef({
-    upperDeptName: upperDeptNameRef.current,
+  const modifyFormDataRef = useRef({
+    upperDeptName: upperDeptName,
     deptList: [],
     deptNameList: [],
     deptCodeList: [],
     deptPhoneList: [],
-    createDate: createDateRef.current,
-    remark: remarkRef.current,
+    createDate: createDate,
+    remark: remark,
   });
 
-  const handleChangeUpperDeptName = (event) => {
-    upperDeptNameRef.current = event.target.value;
-    addFormDataRef.current = {
-      ...addFormDataRef.current,
-      upperDeptName: upperDeptNameRef.current,
-    };
-  };
-
   const handleChangeRemark = (event) => {
-    remarkRef.current = event.target.value;
-    addFormDataRef.current = {
-      ...addFormDataRef.current,
-      remark: remarkRef.current,
+    const { value } = event.target;
+    setRemark(value);
+    modifyFormDataRef.current = {
+      ...modifyFormDataRef.current,
+      remark: value,
     };
   };
 
   const handleChangeCreateDate = (newCreateDate) => {
-    createDateRef.current = newCreateDate;
-    addFormDataRef.current = {
-      ...addFormDataRef.current,
-      createDate: createDateRef.current,
+    setCreateDate(newCreateDate);
+    modifyFormDataRef.current = {
+      ...modifyFormDataRef.current,
+      createDate: newCreateDate,
     };
   };
 
   const handleChangeDeptList = useCallback((data) => {
-    addFormDataRef.current = {
-      ...addFormDataRef.current,
+    modifyFormDataRef.current = {
+      ...modifyFormDataRef.current,
       deptList: data,
       deptNameList: data.map((item) => item.deptName),
       deptCodeList: data.map((item) => item.deptCode),
@@ -63,10 +70,13 @@ function AddDepartmentForm(props) {
     event.preventDefault();
 
     try {
-      const formattedFormData = formatDeptFormData(addFormDataRef.current);
-      await addUpperDeptFormSchema.validate(formattedFormData, {
+      const formattedFormData = formatUpperDeptFormData(modifyFormDataRef.current);
+      await modifyUpperDeptFormSchema.validate(formattedFormData, {
         abortEarly: false,
-        context: { upperDeptData: upperDeptData.current },
+        context: {
+          selectedUpperDeptName: selectedRowData.upperDeptName,
+          upperDeptData: upperDeptData,
+        },
       });
       setErrors(null);
       onChange(formattedFormData);
@@ -83,7 +93,7 @@ function AddDepartmentForm(props) {
   return (
     <>
       <Box className="form-header">
-        <Typography>Add Upper Department</Typography>
+        <Typography>Modify Upper Department</Typography>
       </Box>
       <Box className="form-body">
         {/* Upper Dept Name */}
@@ -100,17 +110,15 @@ function AddDepartmentForm(props) {
             className="section-input"
             required
             hiddenLabel
-            ref={upperDeptNameRef}
+            disabled
+            defaultValue={upperDeptName}
             inputProps={{ id: "upper-dept-name" }}
-            placeholder="Enter upper dept name"
-            error={errors?.upperDeptName && true}
-            helperText={errors?.upperDeptName && errors.upperDeptName}
-            onChange={handleChangeUpperDeptName}
           />
         </Box>
 
         {/* Dept List */}
         <DeptListSection
+          selectedRowData={selectedRowData}
           manageDeptList={manageDeptList}
           onChange={handleChangeDeptList}
           errors={errors}
@@ -128,7 +136,7 @@ function AddDepartmentForm(props) {
           <DatePicker
             className="section-input"
             name="createDate"
-            inputRef={createDateRef}
+            value={createDate}
             onChange={handleChangeCreateDate}
             format="DD/MM/YYYY"
             slotProps={{
@@ -156,7 +164,7 @@ function AddDepartmentForm(props) {
             hiddenLabel
             multiline
             rows={4}
-            ref={remarkRef}
+            value={remark}
             inputProps={{ id: "remark" }}
             placeholder="Enter your remark"
             onChange={handleChangeRemark}
@@ -184,4 +192,4 @@ function AddDepartmentForm(props) {
   );
 }
 
-export default AddDepartmentForm;
+export default ModifyUpperDeptForm;

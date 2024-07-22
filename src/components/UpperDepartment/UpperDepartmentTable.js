@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 import CustomStyledOperation from "../_share/CustomStyledOperation";
 import AddFormLayout from "../../layouts/AddFormLayout";
-import ModifyDepartForm from "./ModifyDepartForm";
+import ModifyUpperDeptForm from "./ModifyUpperDeptForm";
 import DeleteAlert from "../_share/DeleteAlert";
 
 const cellContainerStyles = {
@@ -16,7 +16,7 @@ const cellContainerStyles = {
   gap: "12px",
 };
 
-function DepartmentTable(props) {
+function UpperDepartmentTable(props) {
   const {
     upperDeptData,
     onChange,
@@ -251,7 +251,7 @@ function DepartmentTable(props) {
         openForm={openModifyForm}
         handleCloseForm={handleCloseModifyForm}
       >
-        <ModifyDepartForm
+        <ModifyUpperDeptForm
           upperDeptData={upperDeptData.current}
           manageDeptList={manageDeptList}
           selectedRowData={selectedRowDataRef.current}
@@ -269,4 +269,4 @@ function DepartmentTable(props) {
   );
 }
 
-export default DepartmentTable;
+export default UpperDepartmentTable;

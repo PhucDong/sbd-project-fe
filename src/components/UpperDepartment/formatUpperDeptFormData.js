@@ -1,4 +1,4 @@
-export const formatDeptFormData = (formData) => {
+export const formatUpperDeptFormData = (formData) => {
   const currentUpperDeptName = formData.upperDeptName
     .split(" ")
     .filter((word) => word.length > 0)
