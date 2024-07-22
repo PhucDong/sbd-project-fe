@@ -1,16 +1,21 @@
 # SBD Project
-Latest update: **11 July 2024**
+
+Latest update: **22 July 2024**
 
 ## Project Description
+
 The project acts as an admin dashboard to manage device access of all employess to a building, and their accounts.
 
 ## Technologies
+
 - Frontend: ReactJS, JavaScript, Material UI, Figma
 
 ## Testing
+
 - AccessPermission page: The pagination feature of all Data Grid components (done)
 
 ## Bugs
+
 - Modify form can't get the selected row's data (fixed)
   - Solution: pass **params.row** as a value to set a row's state.
 - How to hide horizontal scrolling when the drawer opens or expands (fixed)
@@ -22,6 +27,7 @@ The project acts as an admin dashboard to manage device access of all employess 
 - Can't update day time frames properly (fixed)
 
 ## Future Features
+
 - Nest a pop-up delete alert modal for the Modify form
 - How to render door shift in each separate Door column (done)
 - In DayTimeFrame page, can delete all checked time frames at once (done)
