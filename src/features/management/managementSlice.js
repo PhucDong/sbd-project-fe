@@ -53,9 +53,9 @@ const initialState = {
         {
           id: 1,
           startingTime: null,
-          endingTime: null
-        }
-      ]
+          endingTime: null,
+        },
+      ],
     },
     {
       label: "System Settings",
@@ -70,16 +70,6 @@ const initialState = {
           addFormHeading: "Device",
         },
         {
-          path: "parameter-settings",
-          label: "Parameter Settings",
-          mainHeading: "Parameter Settings",
-        },
-        {
-          path: "company-information",
-          label: "Company Information",
-          mainHeading: "Company Information",
-        },
-        {
           path: "department",
           label: "Department",
           mainHeading: "Department",
@@ -90,12 +80,6 @@ const initialState = {
           label: "User Account",
           mainHeading: "User Account",
           addFormHeading: "User Account",
-        },
-        {
-          path: "month-management",
-          label: "Month Management",
-          mainHeading: "Month Management",
-          addFormHeading: "Attendance Month",
         },
       ],
     },
