@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
-import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
-import AddIcon from "@mui/icons-material/Add";
+import CustomStyledGeneralButton from "../components/_share/CustomStyledGeneralButton";
 import CustomStyledDeleteAllButton from "../components/DayTimeFrame/CustomStyledDeleteAllButton";
 import { useCallback, useRef, useState } from "react";
 import AddFormLayout from "../layouts/AddFormLayout";
@@ -101,12 +100,11 @@ function UserAccount() {
       <MainHeadingLayout>User Account</MainHeadingLayout>
       <MainButtonGroupLayout>
         <Box sx={{ display: "flex", gap: "4px" }}>
-          <CustomStyledAddButton
-            startIcon={<AddIcon />}
+          <CustomStyledGeneralButton
             onClick={handleOpenAddUserAccForm}
           >
             Add
-          </CustomStyledAddButton>
+          </CustomStyledGeneralButton>
           {areAllUserAccsChecked && (
             <CustomStyledDeleteAllButton onClick={handleOpenDeleteAlert} />
           )}

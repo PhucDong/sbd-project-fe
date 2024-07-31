@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
-import AddIcon from "@mui/icons-material/Add";
-import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
+import CustomStyledGeneralButton from "../components/_share/CustomStyledGeneralButton";
 import UpperDepartmentTable from "../components/UpperDepartment/UpperDepartmentTable";
 import AddFormLayout from "../layouts/AddFormLayout";
 import { useCallback, useRef, useState } from "react";
@@ -80,12 +79,11 @@ function UpperDepartment() {
       <MainHeadingLayout>Upper Department</MainHeadingLayout>
       <MainButtonGroupLayout>
         <Box sx={{ display: "flex", gap: "4px" }}>
-          <CustomStyledAddButton
-            startIcon={<AddIcon />}
+          <CustomStyledGeneralButton
             onClick={handleOpenAddForm}
           >
             Add
-          </CustomStyledAddButton>
+          </CustomStyledGeneralButton>
           {areAllRowsChecked && (
             <CustomStyledDeleteAllButton onClick={handleOpenDeleteAlert} />
           )}

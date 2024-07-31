@@ -2,11 +2,10 @@ import { Box, IconButton } from "@mui/material";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import { useCallback, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import AddFormLayout from "../layouts/AddFormLayout";
 import AddDayTimeFrameForm from "../components/DayTimeFrame/AddDayTimeFrameForm";
 import CachedIcon from "@mui/icons-material/Cached";
-import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
+import CustomStyledGeneralButton from "../components/_share/CustomStyledGeneralButton";
 import DayTimeFrameTable from "../components/DayTimeFrame/DayTimeFrameTable";
 import CustomStyledDeleteAllButton from "../components/DayTimeFrame/CustomStyledDeleteAllButton";
 import DeleteAlert from "../components/_share/DeleteAlert";
@@ -46,12 +45,11 @@ function DayTimeFrame() {
       <MainButtonGroupLayout>
         {/* Add new data to the table */}
         <Box sx={{ display: "flex", gap: "4px" }}>
-          <CustomStyledAddButton
+          <CustomStyledGeneralButton
             onClick={handleOpenAddForm}
-            startIcon={<AddIcon />}
           >
             Add
-          </CustomStyledAddButton>
+          </CustomStyledGeneralButton>
           {areAllRowsSelected && (
             <CustomStyledDeleteAllButton onClick={handleOpenDeleteAlert} />
           )}

@@ -1,10 +1,9 @@
 import { Box } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import MainHeadingLayout from "../layouts/MainHeadingLayout";
 import MainButtonGroupLayout from "../layouts/MainButtonGroupLayout";
 import { useState } from "react";
 import AddFormLayout from "../layouts/AddFormLayout";
-import { CustomStyledAddButton } from "../components/_share/CustomStyledAddButton";
+import CustomStyledGeneralButton from "../components/_share/CustomStyledGeneralButton";
 
 function WeekTimeFrame() {
   const [openAddForm, setOpenAddForm] = useState(false);
@@ -14,9 +13,9 @@ function WeekTimeFrame() {
     <Box>
       <MainHeadingLayout>Week Time Frame Setting</MainHeadingLayout>
       <MainButtonGroupLayout>
-        <CustomStyledAddButton startIcon={<AddIcon />}>
+        <CustomStyledGeneralButton>
           Add
-        </CustomStyledAddButton>
+        </CustomStyledGeneralButton>
       </MainButtonGroupLayout>
     </Box>
   );
