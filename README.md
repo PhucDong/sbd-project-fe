@@ -1,6 +1,6 @@
 # SBD Project
 
-Latest update: **22 July 2024**
+Latest update: **1 August 2024**
 
 ## Project Description
 
@@ -34,3 +34,6 @@ The project acts as an admin dashboard to manage device access of all employess 
 - In all Data Grid components, change background color of selected rows (done)
 - Persist data on current page when switching between sidemenu items
 - In Transfer List of AccessPermission page, add filter feature for all tables
+- Users can select some rows (not all rows on the same page) and delete them at the same time in all Data Grid components
+- Add horizontal scrolling to all Data Grid components whenever the screen size is changed
+- Re-organize and refine codes, files, and folders
